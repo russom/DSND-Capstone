@@ -18,7 +18,7 @@ After the installation the environment should be visible via `conda info --envs`
 ```sh
 # conda environments:
 #
-dsnd-capstone        /usr/local/anaconda3/envs/dsnd-proj5
+dsnd-capstone        /usr/local/anaconda3/envs/dsnd-capstone
 ...
 
 ```
