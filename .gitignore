@@ -1,0 +1,6 @@
+# Don't track content of these folders
+lessons
+.ipynb_checkpoints
+__pycache__
+
+# Don't track files with this extension
