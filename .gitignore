@@ -2,5 +2,6 @@
 lessons
 .ipynb_checkpoints
 __pycache__
+data
 
 # Don't track files with this extension
