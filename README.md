@@ -7,7 +7,8 @@ This is the final Capstone Project submitted as part of the Udacity Data Science
 
 For it the goal is to use [**Spark**](https://spark.apache.org/) to analize the log files coming from a fictitious music streaming service called "Sparkify" and identify a strategy to predict "churn", i.e. the event of a user cancelling the subscription with the service.
 
-The code for this project is submitted in the form of Jupyter notebooks available in the [`notebooks`](/notebooks) folder. In there it's possible to find two Jupyter notebooks: [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb), that makes use of Spark in local mode and is intended to be used with a limited set of data on a PC, and [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) that was used to analize a broader set of data using a Spark cluster deployed on [AWS EMR](https://aws.amazon.com/emr/).
+The code for this project is submitted in the form of Jupyter notebooks available in the [`notebooks`](/notebooks) folder.  
+In there it's possible to find two Jupyter notebooks: [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb), that makes use of Spark in local mode and is intended to be used with a limited set of data on a PC, and [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) that was used to analize a broader set of data using a Spark cluster deployed on [AWS EMR](https://aws.amazon.com/emr/).
 
 A detailed description of the steps taken in both the notebooks is provided in a separate [writeup](./Capstone_writeup.md), that documents also the results obtained.
 
