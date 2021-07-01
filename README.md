@@ -3,10 +3,14 @@
 
 
 ## Overview
-This Project is submitted as part of the Udacity Data Science Nanodegree.
+This is the final Capstone Project submitted as part of the Udacity Data Science Nanodegree.
+
+For it the goal is to analize the log files coming from a fictitious music streaming service called "Sparkify" and identify a strategy to predict "churn", i.e. the event of a user cancelling the subscription with the service.
+
+The code for this project is submitted in the form of Jupyter notebooks available in the [`notebooks`](/notebooks) folder). A detailed explanation is provided in a separate writeup, that documents also the results obtained.
 
 
-## Requirements
+## Requirements for local execution
 In order to facilitate the execution of it  I have prepared an [`environment.yml`](./environment.yml) file to be used to install an environment with [Anaconda](https://www.anaconda.com/):
 
 ```sh
