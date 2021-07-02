@@ -3,10 +3,10 @@ The goal of this project is to use [**Spark**](https://spark.apache.org/) to ana
 
 ---
 ## Data
-The data for this project was provided by Udacity in JSON format, in two differen forms:
+The data for this project was provided by Udacity in JSON format, in two differen sizes:
 
-* A limited dataset (~128 MB, 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
-* A complete dataset (more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
+* A _limited_ dataset (~128 MB, 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
+* A _complete_ dataset (more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
 
 ---
 ## Content of the notebooks
@@ -81,7 +81,7 @@ _Limited Dataset_
 Num. of rows in the dataset:  286500 ; Num. of columns:  18
 ```
 
-_Full Dataset_
+_Complete Dataset_
 ```
 Number of rows in the dataset:  26259199 ; Number of columns:  18
 ```
@@ -115,7 +115,7 @@ _Limited Dataset_
   Num. of rows in the valid dataset:  278154
 ```
 
-_Full Dataset_
+_Complete Dataset_
 ```
   Num. of rows in the valid dataset:  25480720
 ```
