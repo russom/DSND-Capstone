@@ -19,7 +19,7 @@ Both the notebook present the same table of contents; at a high level we have th
 
 In the following we'll see details on all of them (except for the first one). I will essentially make reference to the `local` notebook, clarifying commonalities and differences with the `EMR` one as I go.
 
-Finally, a Conclusion section will summarize the results and possible improvement strategies.
+Finally, a [Conclusions](#Conclusions) section will summarize the results and possible improvement strategies.
 
 #### _Load and Clean Dataset_
 
