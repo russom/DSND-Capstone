@@ -211,6 +211,9 @@ After that, I took few more actions on the data set:
   <img alt="Rolled Adverts per Day" src="./pictures/Rolled-Adverts-per-Day.png">
 </p>
 
+
+Beyond the behavioural quantities I also took a look at some deomgraphic indicators: gender of the subscriber and location.
+
 ### Feature Engineering
 Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
 
