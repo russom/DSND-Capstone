@@ -23,7 +23,7 @@ In the following we'll see details on all of them (except for the first one). I 
 
 Finally, a [Conclusions](#Conclusions) section will summarize the results and possible improvement strategies.
 
-### _Load and Clean Dataset_
+### Load and Clean Dataset
 This part is fairly similar for both the local and EMR cases: the first operation is to load the JSON file:
 
 ```
@@ -121,7 +121,7 @@ _Complete Dataset_
   Num. of rows in the valid dataset:  25480720
 ```
 
-### _Data Exploration_
+### Data Exploration
 Looking at the dataset schema, a column that seeming to provide quite a bit of useful information is `page`, that documents the various pages visited by the users:
 
 ```
@@ -191,10 +191,27 @@ After that, I took few more actions on the data set:
 * I created a list of the churning users and a list of the users that are staying with the service. Based on those lists I divided the original data set in two: a portion for the users that leave and another for those that don't: data from these data sets will then be compared, looking for patterns;
 * I also further refined the two previous datasets, extracting a subset each, containing the last week of data for every user. The idea was to look for patterns of different behaviour in the churning users, as they approach the moment they leave.
 
+<p align="center">
+  <img alt="Time Spent by Users" src="./pictures/Time-Spent-by-Users.png">
+</p>
 
+<p align="center">
+  <img alt="Songs Listened per Day" src="./pictures/Songs-Listened-per-Day.png">
+</p>
 
+<p align="center">
+  <img alt="Friends Added per Day" src="./pictures/Added-Friends-per-Day.png">
+</p>
 
-### _Feature Engineering_
+<p align="center">
+  <img alt="Thumbs Down Given per Day" src="./pictures/Thumbs-Down-per-Day.png">
+</p>
+
+<p align="center">
+  <img alt="Rolled Adverts per Day" src="./pictures/Rolled-Adverts-per-Day.png">
+</p>
+
+### Feature Engineering
 Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
 
 * The number of rolled adverts/day
@@ -209,9 +226,9 @@ I couldn't see any evidence of a sgnificant difference in the behaviour of the u
 
 All the features will be grouped by userId.
 
-### _Modeling_
+### Modeling
 
-### _Optimization_
+### Optimization
 
 ---
 ## Conclusions 
