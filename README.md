@@ -33,10 +33,10 @@ dsnd-capstone        /usr/local/anaconda3/envs/dsnd-capstone
 
 Further documentation on working with Anaconda environments can be found [here](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html). 
 
-## Note on EMR execution
-There are several ways of running a Spark cluster in a cloud platform: as mentioned, for this project I have used AWS EMR to set one up, but, for example, the Udacity team provided guidance on how to use [IBM Watson](https://cloud.ibm.com/developer/watson/dashboard).
+## Notee on EMR environment
+There are several ways of running a Spark cluster in a cloud platform: as mentioned, for this project I have used AWS EMR to set one up, but, for example, the Udacity team provided also guidance on how to use [IBM Watson](https://cloud.ibm.com/developer/watson/dashboard).
 
-At any rate, in my case the cluster was composed by: **4** nodes (1 Master, 3 Workers), cosisting of [m5.xlarge](https://aws.amazon.com/blogs/aws/m5-the-next-generation-of-general-purpose-ec2-instances/) EC2 VMs, running:
+At any rate, in my case the cluster was composed by: **4** nodes (1 Master, 3 Workers), consisting of [m5.xlarge](https://aws.amazon.com/blogs/aws/m5-the-next-generation-of-general-purpose-ec2-instances/) EC2 VMs, running:
 
 * EMR 5.33
 * Spark 2.4.7
