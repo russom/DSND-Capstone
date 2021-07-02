@@ -121,6 +121,69 @@ _Complete Dataset_
 ```
 
 ### _Data Exploration_
+Looking at the dataset schema, a column that seeming to provide quite a bit of useful information is `page`, that documents the various pages visited by the users:
+
+```
+  # Check available pages
+  df_user_log_valid.select("page").dropDuplicates().sort("page").show()
+```
+```
++--------------------+
+|                page|
++--------------------+
+|               About|
+|          Add Friend|
+|     Add to Playlist|
+|              Cancel|
+|Cancellation Conf...|
+|           Downgrade|
+|               Error|
+|                Help|
+|                Home|
+|              Logout|
+|            NextSong|
+|         Roll Advert|
+|       Save Settings|
+|            Settings|
+|    Submit Downgrade|
+|      Submit Upgrade|
+|         Thumbs Down|
+|           Thumbs Up|
+|             Upgrade|
++--------------------+
+```
+
+Based on the type of information available in this column, we can define new variables identifying, for example, an actual churn (looking at when the users visits `Cancellation Confirmation`) or an `Upgrade`/`Downgrade`, but also events like the user giving a Thumbs Up or adding friends, or seeing a Rolling Advert.  
+We can also recontruct the time spent by the users with the system, making reference to the `registration` and `ts` columns.
+
+Based on these ideas I decided to modify the dataset:
+
+* Introducing a `churn` column based on whether or not the user visits the `Cancellation Confirmation` page;
+* Introducing a `sub_dwg` column based on whether or not the user visits the `Submit Downgrade` page;
+* Introducing a `sub_upg` column based on whether or not the user visits the `Submit Upgrade` page;
+* Converting the UNIX time in `ts` and `registration` from ms to s, for simplicity;
+* Introducing a `first_ts` and a `last_ts` column showing the timestamp of the first/last entry for a user;
+* Introducing a `perm_days` column showing the (rounded) number of days a user has spent with the service so far;
+* Introducing a `data_days` variable showing the (rounded) number of days of data available for a user;
+* Introducing a `roll_adv` column based on whether or not the user visits the `Rolled Advert` page;
+* Introducing a `total_rolled_advert` column showing the total of the roll advert events per user;
+* Introducing an `add_friend` column based on whether or not the user visits the `Add Friend` page;
+* Introducing a `total_add_friend` column showing the total of the friends added per user;
+* Introducing an `thumbs_up` column based on whether or not the user visits the `Thumbs Up` page;
+* Introducing a `total_thumbs_up` column showing the total of the thumbs up given per user;
+* Introducing an `thumbs_dwn` column based on whether or not the user visits the `Thumbs Down` page;
+* Introducing a `total_thumbs_dwn` column showing the total of the thumbs down given per user;
+
+Once introduced all the column above we can take a look at the data:
+
+```
+  # Check columns
+  df_user_log_valid.head()
+```
+```
+Row(artist='Sleeping With Sirens', auth='Logged In', firstName='Darianna', gender='F', itemInSession=0, lastName='Carpenter', length=202.97098, level='free', location='Bridgeport-Stamford-Norwalk, CT', method='PUT', page='NextSong', registration=1538016340.0, sessionId=31, song='Captain Tyin Knots VS Mr Walkway (No Way)', status=200, ts=1539003534.0, userAgent='"Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53"', userId='100010', churn=0, sub_dwg=0, sub_upg=0, first_ts=1539003534.0, last_ts=1542823952.0, perm_days=56.0, data_days=44.0, roll_adv=0, total_roll_adv=52, add_friend=0, total_add_friend=4, thumbs_up=0, total_thumbs_up=17, thumbs_dwn=0, total_thumbs_dwn=5)
+```
+
 
 ### _Modeling_
 
