@@ -16,7 +16,8 @@ Both the notebook present the same table of contents; at a high level we have th
 2. [Load and Clean Dataset](#load-and-clean-dataset)
 3. [Data Exploration](#data-exploration)
 4. [Modeling](#modeling)
-5. [Optimization](#optimization)
+5. [Feature Engineering](#feature-engineering)
+6. [Optimization](#optimization)
 
 In the following we'll see details on all of them (except for the first one). I will essentially make reference to the `local` notebook, clarifying commonalities and differences with the `EMR` one as I go.
 
@@ -191,6 +192,22 @@ After that, I took few more actions on the data set:
 * I also further refined the two previous datasets, extracting a subset each, containing the last week of data for every user. The idea was to look for patterns of different behaviour in the churning users, as they approach the moment they leave.
 
 
+
+
+### _Feature Engineering_
+Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
+
+* The number of rolled adverts/day
+* The number of friends added/day
+* The number of thumbs down given/day
+* The number of songs listened/day
+* The time spent with the service
+
+The label will be the actual churning event.
+
+I couldn't see any evidence of a sgnificant difference in the behaviour of the users in the last week before churning vs. the behaviour before, so I will consider their full history.  
+
+All the features will be grouped by userId.
 
 ### _Modeling_
 
