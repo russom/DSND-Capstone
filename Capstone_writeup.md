@@ -5,8 +5,8 @@ The goal of this project is to use [**Spark**](https://spark.apache.org/) to ana
 ## Data
 The data for this project was provided by Udacity in JSON format, in two differen sizes:
 
-* A _limited_ dataset (~128 MB, 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
-* A _complete_ dataset (more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
+* A _limited_ dataset (~128 MB, more than 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
+* A _complete_ dataset (~12 GB, more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
 
 ---
 ## Content of the notebooks
@@ -70,7 +70,7 @@ We can check an example of the data extracting the first row:
 Row(artist='Martha Tilston', auth='Logged In', firstName='Colin', gender='M', itemInSession=50, lastName='Freeman', length=277.89016, level='paid', location='Bakersfield, CA', method='PUT', page='NextSong', registration=1538173362000, sessionId=29, song='Rockpools', status=200, ts=1538352117000, userAgent='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0', userId='30')
 ```
 
-We can also check the number of rows and columns in the dataset. Here, of course, we could see the difference between the limited dataset and the full one:
+It's also possible to check the number of rows and columns in the dataset. Here, of course, we could see the difference between the limited dataset and the full one:
 
 ```
   # Check num of rows, columns
@@ -155,7 +155,7 @@ Looking at the dataset schema, a column that seeming to provide quite a bit of u
 ```
 
 Based on the type of information available in this column, we can define new variables identifying, for example, an actual churn (looking at when the users visits `Cancellation Confirmation`) or an `Upgrade`/`Downgrade`, but also events like the user giving a Thumbs Up or adding friends, or seeing a Rolling Advert.  
-We can also recontruct the time spent by the users with the system, making reference to the `registration` and `ts` columns.
+It would also be possible to recontruct the time spent by the users with the system, making reference to the `registration` and `ts` columns.
 
 Starting from these ideas I decided to modify the dataset:
 
@@ -191,28 +191,108 @@ After that, I took few more actions on the data set:
 * I created a list of the churning users and a list of the users that are staying with the service. Based on those lists I divided the original data set in two: a portion for the users that leave and another for those that don't: data from these data sets will then be compared, looking for patterns;
 * I also further refined the two previous datasets, extracting a subset each, containing the last week of data for every user. The idea was to look for patterns of different behaviour in the churning users, as they approach the moment they leave.
 
+Once done all of that, is possible to compare the datasets that includes the users that left and the one with the users that stay. Both the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) and [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebooks show details of these comparisons for different variables: here in the follow I will show some pictures and statistics relative to some of the more interesting features. I will make reference here to the **Global** dataset (hence the `EMR` notebook). 
+
+#### _Time spent by the Users with the Service_
+
 <p align="center">
   <img alt="Time Spent by Users" src="./pictures/Time-Spent-by-Users.png">
 </p>
+
+
+#### _Songs listened per day_
 
 <p align="center">
   <img alt="Songs Listened per Day" src="./pictures/Songs-Listened-per-Day.png">
 </p>
 
+```
+---------------------------------------------------
+Songs per day statistics for users that cancelled:
+Mean =  33.40 ; Std. Dev. =  26.71
+---------------------------------------------------
+Songs per day statistics for users that stay:
+Mean =  20.21 ; Std. Dev. =  19.17
+---------------------------------------------------
+```
+
+#### _Friends added per day_
+
 <p align="center">
   <img alt="Friends Added per Day" src="./pictures/Added-Friends-per-Day.png">
 </p>
+
+```
+---------------------------------------------------------
+Added friend per day statistics for users that cancelled:
+Mean =  0.68 ; Std. Dev. =  0.61
+---------------------------------------------------------
+Added friend per day statistics for users that stay:
+Mean =  0.41 ; Std. Dev. =  0.44
+---------------------------------------------------------
+```
+
+#### _Thumds Down given per day_
 
 <p align="center">
   <img alt="Thumbs Down Given per Day" src="./pictures/Thumbs-Down-per-Day.png">
 </p>
 
+```
+--------------------------------------------------------------
+Thumbs down given per day statistics for users that cancelled:
+Mean =  0.48 ; Std. Dev. =  0.43
+--------------------------------------------------------------
+Thumbs down per day statistics for users that stay:
+Mean =  0.27 ; Std. Dev. =  0.29
+--------------------------------------------------------------
+```
+
+#### _Rolled Advert per day_
+
 <p align="center">
   <img alt="Rolled Adverts per Day" src="./pictures/Rolled-Adverts-per-Day.png">
 </p>
 
+```
+----------------------------------------------------------
+Rolled adverts per day statistics for users that cancelled:
+Mean =  0.92 ; Std. Dev. =  1.13
+----------------------------------------------------------
+Rolled adverts per day statistics for users that stay:
+Mean =  0.46 ; Std. Dev. =  0.64
+----------------------------------------------------------
+```
 
 Beyond the behavioural quantities I also took a look at some deomgraphic indicators: gender of the subscriber and location.
+
+#### _Gender of the Users_
+
+```
+-----------------------------------------------------------------------------
+Gender distribution for users that cancelled:
+Number of male users =  2123
+Number of female users =  1848
+Number of male users/Total Users =  0.53
+Number of female users/Total Users =  0.47
+-----------------------------------------------------------------------------
+Gender distribution for users that stay:
+Number of male users =  10641
+Number of female users =  9662
+Number of male users/Total Users =  0.52
+Number of female users/Total Users =  0.48
+-----------------------------------------------------------------------------
+```
+
+#### _Location of the Users_
+
+<p align="center">
+  <img alt="Location distribution for Users that cancel" src="./pictures/Location-canceling.png">
+</p>
+
+<p align="center">
+  <img alt="Location distribution for Users that stay" src="./pictures/Location-staying.png">
+</p>
 
 ### Feature Engineering
 Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
