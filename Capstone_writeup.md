@@ -19,7 +19,7 @@ Both the notebook present the same table of contents; at a high level we have th
 5. [Modeling](#modeling)
 6. [Optimization](#optimization)
 
-In the following we'll see details on all of them (except for the first one). I will essentially make reference to the `local` notebook, clarifying commonalities and differences with the `EMR` one as I go.
+In the following we'll see details on all of them (except for the first one). I will mostly make reference to the `local` notebook, clarifying when I get data from the `EMR` one as I go.
 
 Finally, a [Conclusions](#Conclusions) section will summarize the results and possible improvement strategies.
 
@@ -425,6 +425,43 @@ F1-score, Linear Support Vector Machine classifier:  0.8296
 ```
 
 ### Optimization
+Once ran the classifier with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases. I defined the following grids:
+
+```
+  # Gradient Booster Tree 
+  # Parameter grid
+  paramgrid_gbt_o = ParamGridBuilder()\
+      .addGrid(gbt.stepSize, [0.1, 0.25, 0.5])\
+     .addGrid(gbt.maxIter, [20, 40, 60])\
+     .build()
+```
+```
+  # Random Forest
+  # Parameter grid
+  paramgrid_rf_o = ParamGridBuilder()\
+      .addGrid(rf.impurity, ['entropy', 'gini'])\
+     .addGrid(rf.maxDepth, [5, 10])\
+     .addGrid(rf.numTrees, [20, 40])\
+     .build()
+```
+
+Obtaining, in both cases, an improvement in the score:
+
+_Limited Dataset_
+```
+F1-score, Gradient-Boosted Tree classifier:  0.8401
+```
+```
+F1-score, Random Forest classifier:  0.8302
+```
+
+_Complete Dataset_
+```
+F1-score, Gradient-Boosted Tree classifier:  0.8859
+```
+```
+F1-score, Random Forest classifier:  0.8850
+```
 
 ---
 ## Conclusions 
