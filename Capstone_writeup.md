@@ -5,8 +5,8 @@ The goal of this project is to use [**Spark**](https://spark.apache.org/) to ana
 ## Data
 The data for this project was provided by Udacity in JSON format, in two differen sizes:
 
-* A _limited_ dataset (~128 MB, more than 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
-* A _complete_ dataset (~12 GB, more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
+* A _Limited_ dataset (~128 MB, more than 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
+* A _Complete_ dataset (~12 GB, more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
 
 ---
 ## Content of the notebooks
@@ -199,6 +199,15 @@ Once done all of that, is possible to compare the datasets that includes the use
   <img alt="Time Spent by Users" src="./pictures/Time-Spent-by-Users.png">
 </p>
 
+```
+------------------------------------------------
+Time spent statistics for users that cancelled:
+Mean =  69.69 ; Std. Dev. =  40.74
+------------------------------------------------
+Time spent statistics for users that stay:
+Mean =  86.45 ; Std. Dev. =  39.59
+------------------------------------------------
+```
 
 #### _Songs listened per day_
 
@@ -295,7 +304,7 @@ Number of female users/Total Users =  0.48
 </p>
 
 ### Feature Engineering
-Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
+Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase
 
 * The number of rolled adverts/day
 * The number of friends added/day
@@ -305,11 +314,115 @@ Based on the data analysis completed in the previous section, I decided to consi
 
 The label will be the actual churning event.
 
-I couldn't see any evidence of a sgnificant difference in the behaviour of the users in the last week before churning vs. the behaviour before, so I will consider their full history.  
+I couldn't see any evidence of a sgnificant difference in the behaviour of the users in the last week before churning vs. the behaviour before, so I will consider their full history. Analogously, I couldn't see a meaningful difference between the groups in terms of gender or location, so I decided not to include demographics information.
 
-All the features will be grouped by userId.
+All the features will be grouped by userId. An example of the dataset format after the feature engineering phase is:
+
+```
+  # Check the data
+  df_user_logs_mod.head()
+```
+
+```
+Row(id='100010', rolledAdvDay=1.1818181818181819, addedFriendDay=0.09090909090909091, thumbsDwnDay=0.022727272727272728, songsDay=6.113636363636363, permanence=56.0, label=0)
+```
 
 ### Modeling
+In this section, I have compared a few of the classifiers available in [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), considering, for all of them, thair reference parameters (i.e., I did not run any grid optimization here). I chose:
+
+* A [Logistic Regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#logistic-regression) classifier;
+* A [Gradient Boosted Tree](https://spark.apache.org/docs/latest/ml-classification-regression.html#gradient-boosted-tree-classifier) classifier;
+* A [Random Forest](https://spark.apache.org/docs/latest/ml-classification-regression.html#random-forest-classifier) classifier;
+* A [Linear Support Vector](https://spark.apache.org/docs/latest/ml-classification-regression.html#linear-support-vector-machine) classifier.
+
+In terms of phases:
+
+* The first thing was splitting the dataset in train and testing portions (note: fixing the seed here ensures repeatability of the experiment):
+
+```
+  # 80/20 % split
+  train, test = df_user_logs_mod.randomSplit([0.8, 0.2], seed=42)
+```
+
+* Then I have defined a [VectorAssembler](https://spark.apache.org/docs/latest/ml-features#vectorassembler) to combine all the features of interest in a single vector:
+
+```
+  # Define VectorAssembler
+  assembler = VectorAssembler(inputCols=["rolledAdvDay",\
+                                       "addedFriendDay",\
+                                       "thumbsDwnDay",\
+                                       "songsDay",\
+                                       "permanence"], \
+                            outputCol="inputFeatures")
+```
+
+* I have then scale the data using a [Min-Max Scaler](https://spark.apache.org/docs/latest/ml-features#minmaxscaler). I opted for this given that the distributions of the various features (as seen in the data exploration section) are quite skewed and far from resembling the normal one.
+
+```
+  # Define Scaler
+  scaler = MinMaxScaler(inputCol="inputFeatures", outputCol="features")
+```
+
+* After that, I could introduce 4 pipelines, one for each of the classifiers:
+
+```
+  # Classifiers/Pipelines
+
+  # Logistic Regression 
+  lr = LogisticRegression()
+  pipeline_lr = Pipeline(stages = [assembler, scaler, lr])
+
+  # Gradient-Boosted Tree classifier
+  gbt = GBTClassifier()
+  pipeline_gbt = Pipeline(stages = [assembler, scaler, gbt])
+
+  # Random Forest classifier
+  # Note: setting the seed will ensure repeatability of the results
+  rf = RandomForestClassifier(seed = 42)
+  pipeline_rf = Pipeline(stages = [assembler, scaler, rf])
+
+  # Linear Support Vector Machine classifier
+  lsvc = LinearSVC()
+  pipeline_svc = Pipeline(stages = [assembler, scaler, lsvc])
+```
+
+* Finally, I opted for a validator using the f1-score metric, given the [imbalance in the data](https://stats.stackexchange.com/questions/210700/how-to-choose-between-roc-auc-and-f1-score) (there are quite more users that stay that users that leave)
+
+```
+  # Evaluator - will be common for all the grids
+  evaluator = MulticlassClassificationEvaluator(metricName="f1")
+```
+
+After that, I proceeded in fitting and evaluating the four classifiers.  
+The most interesting thing in doing that, I believe, is the difference in results between the Limited and Complete dataset.
+
+_Limited Dataset_
+```
+F1-score, Logistic Regression classifier:  0.8828
+```
+```
+F1-score, Gradient-Boosted Tree classifier:  0.8190
+```
+```
+F1-score, Random Forest classifier:  0.8095
+```
+```
+F1-score, Linear Support Vector Machine classifier:  0.8302
+```
+
+_Complete Dataset_
+```
+F1-score, Logistic Regression classifier:  0.8398
+```
+```
+F1-score, Gradient-Boosted Tree classifier:  0.8848
+```
+```
+F1-score, Random Forest classifier:  0.8828
+```
+```
+F1-score, Linear Support Vector Machine classifier:  0.8296
+```
 
 ### Optimization
 
