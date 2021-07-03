@@ -445,7 +445,7 @@ Once ran the classifier with the default parameters, I proceeded with an optimiz
      .build()
 ```
 
-Obtaining, in both cases, an improvement in the score:
+Obtaining, in both cases, some improvement in the score:
 
 _Limited Dataset_
 ```
