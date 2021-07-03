@@ -287,7 +287,7 @@ Number of female users/Total Users =  0.48
 #### _Location of the Users_
 
 <p align="center">
-  <img alt="Location distribution for Users that cancel" src="./pictures/Location-canceling.png">
+  <img alt="Location distribution for Users that cancel" src="./pictures/Location-cancelling.png">
 </p>
 
 <p align="center">
