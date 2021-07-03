@@ -15,8 +15,8 @@ Both the notebook present the same table of contents; at a high level we have th
 1. Load Libraries
 2. [Load and Clean Dataset](#load-and-clean-dataset)
 3. [Data Exploration](#data-exploration)
-4. [Modeling](#modeling)
-5. [Feature Engineering](#feature-engineering)
+4. [Feature Engineering](#feature-engineering)
+5. [Modeling](#modeling)
 6. [Optimization](#optimization)
 
 In the following we'll see details on all of them (except for the first one). I will essentially make reference to the `local` notebook, clarifying commonalities and differences with the `EMR` one as I go.
