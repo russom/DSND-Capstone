@@ -305,7 +305,7 @@ Number of female users/Total Users =  0.48
 </p>
 
 ### Feature Engineering
-Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase
+Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
 
 * The number of rolled adverts/day
 * The number of friends added/day
@@ -315,21 +315,20 @@ Based on the data analysis completed in the previous section, I decided to consi
 
 The label will be the actual churning event.
 
-I couldn't see any evidence of a sgnificant difference in the behaviour of the users in the last week before churning vs. the behaviour before, so I will consider their full history. Analogously, I couldn't see a meaningful difference between the groups in terms of gender or location, so I decided not to include demographics information.
+I couldn't see any evidence of a significant difference in the behaviour of the users in the last week before churning vs. the behaviour before, so I resolved to consider their full history. Analogously, I couldn't see a meaningful difference between the groups in terms of gender or location, so I ended up not including demographics information.
 
-All the features will be grouped by userId. An example of the dataset format after the feature engineering phase is:
+All the features are grouped by userId. An example of the dataset format after the feature engineering phase is:
 
 ```
   # Check the data
   df_user_logs_mod.head()
 ```
-
 ```
 Row(id='100010', rolledAdvDay=1.1818181818181819, addedFriendDay=0.09090909090909091, thumbsDwnDay=0.022727272727272728, songsDay=6.113636363636363, permanence=56.0, label=0)
 ```
 
 ### Modeling
-In this section, I have compared a few of the classifiers available in [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), considering, for all of them, thair reference parameters (i.e., I did not run any grid optimization here). I chose:
+In this section, I compared a few of the classifiers available in [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), considering, for all of them, thair reference parameters (i.e., I did not run any grid optimization here). I chose:
 
 * A [Logistic Regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#logistic-regression) classifier;
 * A [Gradient Boosted Tree](https://spark.apache.org/docs/latest/ml-classification-regression.html#gradient-boosted-tree-classifier) classifier;
@@ -357,7 +356,7 @@ In terms of phases:
                             outputCol="inputFeatures")
 ```
 
-* I have then scale the data using a [Min-Max Scaler](https://spark.apache.org/docs/latest/ml-features#minmaxscaler). I opted for this given that the distributions of the various features (as seen in the data exploration section) are quite skewed and far from resembling the normal one.
+* I have then scaled the data using a [Min-Max Scaler](https://spark.apache.org/docs/latest/ml-features#minmaxscaler). I opted for this given that the distributions of the various features (as seen in the data exploration section) are quite skewed and far from resembling the normal one.
 
 ```
   # Define Scaler
@@ -387,7 +386,7 @@ In terms of phases:
   pipeline_svc = Pipeline(stages = [assembler, scaler, lsvc])
 ```
 
-* Finally, I opted for a validator using the f1-score metric, given the [imbalance in the data](https://stats.stackexchange.com/questions/210700/how-to-choose-between-roc-auc-and-f1-score) (there are quite more users that stay that users that leave)
+* Finally, I opted for a validator using the f1-score metric, given the [imbalance in the data](https://stats.stackexchange.com/questions/210700/how-to-choose-between-roc-auc-and-f1-score) (there are quite more users that stay that users that leave):
 
 ```
   # Evaluator - will be common for all the grids
@@ -426,10 +425,10 @@ F1-score, Linear Support Vector Machine classifier:  0.8296
 ```
 
 ### Optimization
-Once ran the classifier with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases. I defined the following grids:
+Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases. I defined the following grids:
 
 ```
-  # Gradient Booster Tree 
+  # Gradient Boosted Tree 
   # Parameter grid
   paramgrid_gbt_o = ParamGridBuilder()\
       .addGrid(gbt.stepSize, [0.1, 0.25, 0.5])\
@@ -466,3 +465,10 @@ F1-score, Random Forest classifier:  0.8850
 
 ---
 ## Conclusions 
+With this  project I demonstrated the possibility to train a classifier to predict, based on available information, whether or not a user of the "Sparkify" service will "churn" with a level of performance measured by an **f1-score > 0.8**.
+
+There are a few things that I found particularly intersting in going through the experience:
+
+* First of all, the general saying that the majority of the time in Data Science is spent doing data exploration and feature engineering is aboslutely true. I would say that at least 75% of the time I spent on the project went into these two phases, and it probably could have been more.
+* The actual modeling phase highlighted the differences, and added value, of the Complete data set vs. the Limited one. Indeed, while in fitting against the Limited data some classifiers (Logistic Regression and SVC) were scoring higher f1 than the others, the positions switched when evaluating against the Complete daaset. In that case, the Grandient Boosted Tree and Random Foreest classifiers scored better both in relative and absolute sense.
+* The results could be improved even further through a grid optimization phase that led to a final **f1-score of ~0.89**. However, the grid parameters chosen in these project should not be considered exhaustive: indeed, it would be a possible option for further improvements to explore how to get an even betteer score
