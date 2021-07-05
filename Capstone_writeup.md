@@ -19,7 +19,7 @@ Both the notebook present the same table of contents; at a high level we have th
 5. [Modeling](#modeling)
 6. [Optimization](#optimization)
 
-In the following we'll see details on all of them (except for the first one). I will mostly make reference to the `local` notebook, clarifying when I get data from the `EMR` one as I go.
+In the following we'll see details on all of them (except for the first one). I will mostly make reference to the `local` notebook, clarifying when I show results from the `EMR` one as I go.
 
 Finally, a [Conclusions](#Conclusions) section will summarize the results and possible improvement strategies.
 
