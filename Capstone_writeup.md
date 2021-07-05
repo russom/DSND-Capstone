@@ -122,7 +122,7 @@ _Complete Dataset_
 ```
 
 ### Data Exploration
-Looking at the dataset schema, a column that seeming to provide quite a bit of useful information is `page`, that documents the various pages visited by the users:
+Looking at the dataset schema, a column seeming to provide quite a bit of useful information is `page`, that documents the various pages visited by the users:
 
 ```
   # Check available pages
@@ -154,7 +154,7 @@ Looking at the dataset schema, a column that seeming to provide quite a bit of u
 +--------------------+
 ```
 
-Based on the type of information available in this column, we can define new variables identifying, for example, an actual churn (looking at when the users visits `Cancellation Confirmation`) or an `Upgrade`/`Downgrade`, but also events like the user giving a Thumbs Up or adding friends, or seeing a Rolling Advert.  
+Based on the information available in this column, we can define new variables identifying, for example, an actual churn (looking at when the users visits `Cancellation Confirmation`) or an `Upgrade`/`Downgrade`, but also events like the user giving a Thumbs Up or adding friends, or seeing a Rolling Advert.  
 It would also be possible to recontruct the time spent by the users with the system, making reference to the `registration` and `ts` columns.
 
 Starting from these ideas I decided to modify the dataset:
@@ -175,7 +175,7 @@ Starting from these ideas I decided to modify the dataset:
 * Introducing an `thumbs_dwn` column based on whether or not the user visits the `Thumbs Down` page;
 * Introducing a `total_thumbs_dwn` column showing the total of the thumbs down given per user;
 
-Once introduced all the column above we can take a look at the data:
+Once introduced all the columns above we can take a look at the data:
 
 ```
   # Check columns
@@ -188,10 +188,11 @@ Row(artist='Sleeping With Sirens', auth='Logged In', firstName='Darianna', gende
 After that, I took few more actions on the data set:
 
 * To gain significance in the data, I filtered away all the users with less than a week of data;
-* I created a list of the churning users and a list of the users that are staying with the service. Based on those lists I divided the original data set in two: a portion for the users that leave and another for those that don't: data from these data sets will then be compared, looking for patterns;
-* I also further refined the two previous datasets, extracting a subset each, containing the last week of data for every user. The idea was to look for patterns of different behaviour in the churning users, as they approach the moment they leave.
+* I created a list of the churning users and a list of the users that are staying with the service. Based on those lists I divided the original data set in two: a portion for the users that leave and another for those that don't. Data from these data sets will then be compared, looking for patterns;
+* I also further refined the two previous datasets, extracting a subset from each, containing the last week of data for every user. The idea was to look for patterns of different behaviour in the churning users, as they approach the moment they leave.
 
-Once done all of that, is possible to compare the datasets that includes the users that left and the one with the users that stay. Both the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) and [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebooks show details of these comparisons for different variables: here in the follow I will show some pictures and statistics relative to some of the more interesting features. I will make reference here to the **Global** dataset (hence the `EMR` notebook). 
+Once done all of that, it became possible to compare the dataset including the users that left and the one with the users that stay.  
+Both the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) and [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebooks show details of these comparisons for different variables: here in the follow I will show some pictures and statistics relative to some of the more interesting features. I will make reference here to the **Global** dataset (hence the `EMR` notebook). 
 
 #### _Time spent by the Users with the Service_
 
