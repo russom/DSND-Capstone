@@ -425,13 +425,13 @@ F1-score, Linear Support Vector Machine classifier:  0.8296
 ```
 
 **NOTE**
-In proceeding with the fitting on the EMR cluster, I often received the following exception:
+In proceeding with the fitting on the EMR cluster, I often received an exception similar to this:
 
 <p align="center">
   <img alt="Spark EMR Exception" src="./pictures/Spark-EMR-Exception.png">
 </p>
 
-This was not always predictable or repeatable: the exception would generally happen during this phase, but not necessarily always at the same cell. Also, the body of the message might change slighlty, with `KeyError` making reference to different values. At any rate, the execution of the code could proceed after that.  
+This was not always predictable or repeatable: the exception would generally happen during this phase, but not necessarily always at the same cell. Also, the body of the message might change slighlty, with `KeyError` making reference to different values. At any rate, the execution of the code could proceed after that, with no other noticeable effect.  
 I found [this](https://stackoverflow.com/questions/58910023/keyerror-when-training-a-model-with-pyspark-ml-on-aws-emr-with-data-from-s3-buck) post on StackOverflow, describing a similar issue and advancing th hypothesis that the exception might in fact be related just to the Spark progress bar normally shown. However, I couldn't gather any further insight.
 
 ### Optimization
