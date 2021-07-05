@@ -424,7 +424,7 @@ F1-score, Random Forest classifier:  0.8828
 F1-score, Linear Support Vector Machine classifier:  0.8296
 ```
 
-**NOTE**
+**NOTE**  
 In proceeding with the fitting on the EMR cluster, I often received an exception similar to this:
 
 <p align="center">
