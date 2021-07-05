@@ -24,7 +24,7 @@ In the following we'll see details on all of them (except for the first one). I 
 Finally, a [Conclusions](#Conclusions) section will summarize the results and possible improvement strategies.
 
 ### Load and Clean Dataset
-This part is fairly similar for both the local and EMR cases: the first operation is to load the JSON file:
+This part is fairly similar for both the local and EMR cases; the first operation is to load the JSON file:
 
 ```
   # Load data
