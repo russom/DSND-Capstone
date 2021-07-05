@@ -89,9 +89,9 @@ Number of rows in the dataset:  26259199 ; Number of columns:  18
 
 In terms of cleaning, what I did is I got rid of rows with:
 
-* Any `NaN` eventually present in the `sessionId` or `userId` fields: this could have been the consequence of errors or bugs in the logging ysytem;
+* Any `NaN` eventually present in the `sessionId` or `userId` fields: this could have been the consequence of errors or bugs in the logging system;
 * Any `Nan` eventually present in the `gender` or `location` fields: I use these in part of the exploration phase, to look at demographics;
-* Any emty `userId` field still remaining: this would be most likely assiciated with the very first interaction of the users with the system.
+* Any empty `userId` field still remaining: this would be most likely associated with events like the very first interaction of the users with the system.
 
 ```
   # Drop NaN in userId and sessionId
