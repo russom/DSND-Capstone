@@ -155,7 +155,7 @@ Looking at the dataset schema, a column seeming to provide quite a bit of useful
 ```
 
 Based on the information available in this column, we can define new variables identifying, for example, an actual churn (looking at when the users visits `Cancellation Confirmation`) or an `Upgrade`/`Downgrade`, but also events like the user giving a Thumbs Up or adding friends, or seeing a Rolling Advert.  
-It would also be possible to recontruct the time spent by the users with the system, making reference to the `registration` and `ts` columns.
+It would also be possible to reconstruct the time spent by the users with the system, making reference to the `registration` and `ts` columns.
 
 Starting from these ideas I decided to modify the dataset:
 
