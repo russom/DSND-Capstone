@@ -52,7 +52,7 @@ Personally I found particularly helpful the sections/post on:
 * [Installing additional Python libraries on a Jupyter notebook](https://aws.amazon.com/blogs/big-data/install-python-libraries-on-a-running-cluster-with-emr-notebooks/)
 
 ## Blog Post
-The main steps and results of this project have also been pubished in [this story](https://michelangelo-russo.medium.com/get-them-before-they-churn-561ec6e98307) on Medium 
+The main steps and results of this project have also been pubished in [this story](https://michelangelo-russo.medium.com/get-them-before-they-churn-561ec6e98307) on Medium. 
 
 ## License
  <a rel="license" href="https://opensource.org/licenses/MIT"><img alt="MIT License" style="border-width:0" src="https://img.shields.io/badge/License-MIT-yellow.svg?style=plastic" /></a><br />This work is licensed under an <a rel="license" href="https://opensource.org/licenses/MIT">MIT License</a>.
