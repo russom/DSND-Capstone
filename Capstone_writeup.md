@@ -477,7 +477,7 @@ F1-score, Random Forest classifier:  0.8850
 ## Conclusions 
 With this  project I demonstrated the possibility to train a classifier to predict, based on available information, whether or not a user of the "Sparkify" service will "churn" with a level of performance measured by an **f1-score > 0.8**.
 
-There are a few things that I found particularly intersting in going through the experience:
+There are a few things that I found particularly interesting in going through the experience:
 
 * First of all, the general saying that the majority of the time in Data Science is spent doing data exploration and feature engineering is aboslutely true. I would say that at least 75% of the time I spent on the project went into these two phases, and it probably could have been more.
 * The actual modeling phase highlighted the differences, and added value, of the Complete data set vs. the Limited one. Indeed, while in fitting against the Limited data some classifiers (Logistic Regression and SVC) were scoring higher f1 than the others, the positions switched when evaluating against the Complete daaset. In that case, the Grandient Boosted Tree and Random Foreest classifiers scored better both in relative and absolute sense.
