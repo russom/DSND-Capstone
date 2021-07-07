@@ -363,7 +363,7 @@ In terms of phases:
   scaler = MinMaxScaler(inputCol="inputFeatures", outputCol="features")
 ```
 
-* After that, I could introduce 4 pipelines, one for each of the classifiers:
+* After that, I could introduce 4 [pipelines](https://spark.apache.org/docs/latest/ml-pipeline.html), one for each of the classifiers:
 
 ```
   # Classifiers/Pipelines
