@@ -344,7 +344,7 @@ In terms of phases:
   train, test = df_user_logs_mod.randomSplit([0.8, 0.2], seed=42)
 ```
 
-* Then I have defined a [VectorAssembler](https://spark.apache.org/docs/latest/ml-features#vectorassembler) to combine all the features of interest in a single vector:
+* Then I defined a [VectorAssembler](https://spark.apache.org/docs/latest/ml-features#vectorassembler) to combine all the features of interest in a single vector:
 
 ```
   # Define VectorAssembler
@@ -356,7 +356,7 @@ In terms of phases:
                             outputCol="inputFeatures")
 ```
 
-* I have then scaled the data using a [Min-Max Scaler](https://spark.apache.org/docs/latest/ml-features#minmaxscaler). I opted for this given that the distributions of the various features (as seen in the data exploration section) are quite skewed and far from resembling the normal one.
+* I then scaled the data using a [Min-Max Scaler](https://spark.apache.org/docs/latest/ml-features#minmaxscaler). I opted for this given that the distributions of the various features (as seen in the data exploration section) are quite skewed and far from resembling the normal one.
 
 ```
   # Define Scaler
