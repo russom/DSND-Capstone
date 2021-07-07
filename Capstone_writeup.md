@@ -328,7 +328,7 @@ Row(id='100010', rolledAdvDay=1.1818181818181819, addedFriendDay=0.0909090909090
 ```
 
 ### Modeling
-In this section, I compared a few of the classifiers available in [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), considering, for all of them, thair reference parameters (i.e., I did not run any grid optimization here). I chose:
+In this section, I compared a few of the classifiers available in [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), considering, for all of them, their reference parameters (i.e., I did not run any grid optimization here). I chose:
 
 * A [Logistic Regression](https://spark.apache.org/docs/latest/ml-classification-regression.html#logistic-regression) classifier;
 * A [Gradient Boosted Tree](https://spark.apache.org/docs/latest/ml-classification-regression.html#gradient-boosted-tree-classifier) classifier;
