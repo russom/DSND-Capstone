@@ -42,7 +42,7 @@ At any rate, in my case the cluster was composed by **4** nodes (1 Master, 3 Wor
 * Spark 2.4.7
 * Livy 0.7.0 
 * Hive 2.3.7 
-* JupyterEnterpriseGateway 2.1.0
+* Jupyter Enterprise Gateway 2.1.0
 
 In terms of documentation, the [EMR Mangement guide](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html) is a valuable resource, together with the [EMR Big Data blog](https://aws.amazon.com/blogs/big-data/).  
 Personally I found particularly helpful the sections/post on:
