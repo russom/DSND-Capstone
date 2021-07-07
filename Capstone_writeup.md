@@ -305,7 +305,7 @@ Number of female users/Total Users =  0.48
 </p>
 
 ### Feature Engineering
-Based on the data analysis completed in the previous section, I decided to consider, as training features to be used for the modeling phase:
+Based on the data analysis completed in the previous section, I decided to consider as training features to be used for the modeling phase:
 
 * The number of rolled adverts/day
 * The number of friends added/day
