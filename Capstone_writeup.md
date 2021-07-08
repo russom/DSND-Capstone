@@ -30,7 +30,7 @@ Both the notebooks provided present the same table of contents; at a high level 
 
 In the following we'll see details on all of them (except for the first one). I will mostly make reference to the `local` notebook, clarifying when I show results from the `EMR` one as I go.
 
-Finally, a [Conclusions](#Conclusions) section will summarize the results and possible improvement strategies.
+Finally, a [Reults and Conclusions](#Results-and-Conclusions) section will summarize the findings and introduce possible improvement strategies.
 
 ### Load and Clean Dataset
 This part is fairly similar for both the local and EMR cases; the first operation is to load the JSON file:
@@ -548,7 +548,7 @@ Fold:  2 ; F1-score, Random Forest classifier:  0.8823
 It is clearly noticeable how the richer dataset provides a much better training, leading to pretty much stable metrics for both the classifiers.
 
 ---
-## Conclusions 
+## Results and Conclusions 
 With this  project I demonstrated the possibility to train a classifier to predict, based on available information, whether or not a user of the "Sparkify" service will "churn" with a level of performance measured by an **f1-score > 0.8**.
 
 There are a few things that I found particularly interesting in going through the experience:
