@@ -398,7 +398,7 @@ In terms of phases:
 ```
 
 After that, I proceeded in fitting and evaluating the four classifiers.  
-In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), folding the dataset with `k = 3`, so to ensure robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
+In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), folding the dataset with `k = 3`, so to verify robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
 
 ```
 # Empty parameter grid
