@@ -431,16 +431,16 @@ F1-score, Linear Support Vector Machine classifier:  0.8302
 
 _Complete Dataset_
 ```
-F1-score, Logistic Regression classifier:  0.8398
+F1-score, Logistic Regression classifier:  0.8344
 ```
 ```
-F1-score, Gradient-Boosted Tree classifier:  0.8848
+F1-score, Gradient-Boosted Tree classifier:  0.8858
 ```
 ```
-F1-score, Random Forest classifier:  0.8828
+F1-score, Random Forest classifier:  0.8798
 ```
 ```
-F1-score, Linear Support Vector Machine classifier:  0.8296
+F1-score, Linear Support Vector Machine classifier:  0.8236
 ```
 
 **NOTE:**  
@@ -488,30 +488,63 @@ F1-score, Random Forest classifier:  0.8302
 
 _Complete Dataset_
 ```
-F1-score, Gradient-Boosted Tree classifier:  0.8859
+F1-score, Gradient-Boosted Tree classifier:  0.8858
 ```
 ```
 F1-score, Random Forest classifier:  0.8850
 ```
 
-It is interesting to evaluate how much the parameters were changed with respect to the default. Looking at the Gradient-Boosted Tree trained on the complete dataset (i.e. the classifier with the best score) we have:
+It is interesting to evaluate how much the parameters were changed with respect to the default. Looking at the Complete dataset cases (i.e. those with better scores), we can see that the Gradient-Boosted Tree classifier remained with the default parameters, while for the Random Forest one we have:
 
 ```
-  bestGBTPipeline = cvModel_gbt_o.bestModel
-  bestGBTModel = bestGBTPipeline.stages[2]
-  bestGBTParams = bestGBTModel.extractParamMap()
-  bestGBTParams
+  bestRFPipeline = cvModel_rf_o.bestModel
+  bestRFModel = bestRFPipeline.stages[2]
+  bestRFParams = bestRFModel.extractParamMap()
+  bestRFParams
 ```
->```{Param(parent='GBTClassifier_3fb74596c770', name='cacheNodeIds', doc='If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees.'): False, Param(parent='GBTClassifier_3fb74596c770', name='checkpointInterval', doc='set checkpoint interval (>= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext'): 10, Param(parent='GBTClassifier_3fb74596c770', name='featureSubsetStrategy', doc='The number of features to consider for splits at each tree node. Supported options: auto, all, onethird, sqrt, log2, (0.0-1.0], [1-n].'): 'all', Param(parent='GBTClassifier_3fb74596c770', name='featuresCol', doc='features column name'): 'features', Param(parent='GBTClassifier_3fb74596c770', name='labelCol', doc='label column name'): 'label', Param(parent='GBTClassifier_3fb74596c770', name='lossType', doc='Loss function which GBT tries to minimize (case-insensitive). Supported options: logistic'): 'logistic', Param(parent='GBTClassifier_3fb74596c770', name='maxBins', doc='Max number of bins for discretizing continuous features.  Must be at least 2 and at least number of categories for any categorical feature.'): 32, Param(parent='GBTClassifier_3fb74596c770', name='maxDepth', doc='Maximum depth of the tree. (Nonnegative) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.'): 5, Param(parent='GBTClassifier_3fb74596c770', name='maxIter', doc='maximum number of iterations (>= 0)'): 60, Param(parent='GBTClassifier_3fb74596c770', name='maxMemoryInMB', doc='Maximum memory in MB allocated to histogram aggregation.'): 256, Param(parent='GBTClassifier_3fb74596c770', name='minInfoGain', doc='Minimum information gain for a split to be considered at a tree node.'): 0.0, Param(parent='GBTClassifier_3fb74596c770', name='minInstancesPerNode', doc='Minimum number of instances each child must have after split.  If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Must be at least 1.'): 1, Param(parent='GBTClassifier_3fb74596c770', name='predictionCol', doc='prediction column name'): 'prediction', Param(parent='GBTClassifier_3fb74596c770', name='seed', doc='random seed'): 3504127614838123891, Param(parent='GBTClassifier_3fb74596c770', name='stepSize', doc='Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.'): 0.1, Param(parent='GBTClassifier_3fb74596c770', name='subsamplingRate', doc='Fraction of the training data used for learning each decision tree, in range (0, 1].'): 1.0}```
+>```{Param(parent='RandomForestClassifier_7b20e34536a7', name='cacheNodeIds', doc='If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees.'): False, Param(parent='RandomForestClassifier_7b20e34536a7', name='checkpointInterval', doc='set checkpoint interval (>= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext'): 10, Param(parent='RandomForestClassifier_7b20e34536a7', name='featureSubsetStrategy', doc='The number of features to consider for splits at each tree node. Supported options: auto, all, onethird, sqrt, log2, (0.0-1.0], [1-n].'): 'auto', Param(parent='RandomForestClassifier_7b20e34536a7', name='featuresCol', doc='features column name'): 'features', Param(parent='RandomForestClassifier_7b20e34536a7', name='impurity', doc='Criterion used for information gain calculation (case-insensitive). Supported options: entropy, gini'): 'entropy', Param(parent='RandomForestClassifier_7b20e34536a7', name='labelCol', doc='label column name'): 'label', Param(parent='RandomForestClassifier_7b20e34536a7', name='maxBins', doc='Max number of bins for discretizing continuous features.  Must be at least 2 and at least number of categories for any categorical feature.'): 32, Param(parent='RandomForestClassifier_7b20e34536a7', name='maxDepth', doc='Maximum depth of the tree. (Nonnegative) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.'): 10, Param(parent='RandomForestClassifier_7b20e34536a7', name='maxMemoryInMB', doc='Maximum memory in MB allocated to histogram aggregation.'): 256, Param(parent='RandomForestClassifier_7b20e34536a7', name='minInfoGain', doc='Minimum information gain for a split to be considered at a tree node.'): 0.0, Param(parent='RandomForestClassifier_7b20e34536a7', name='minInstancesPerNode', doc='Minimum number of instances each child must have after split.  If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Must be at least 1.'): 1, Param(parent='RandomForestClassifier_7b20e34536a7', name='numTrees', doc='Number of trees to train (at least 1)'): 40, Param(parent='RandomForestClassifier_7b20e34536a7', name='predictionCol', doc='prediction column name'): 'prediction', Param(parent='RandomForestClassifier_7b20e34536a7', name='probabilityCol', doc='Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities'): 'probability', Param(parent='RandomForestClassifier_7b20e34536a7', name='rawPredictionCol', doc='raw prediction (a.k.a. confidence) column name'): 'rawPrediction', Param(parent='RandomForestClassifier_7b20e34536a7', name='seed', doc='random seed'): 42, Param(parent='RandomForestClassifier_7b20e34536a7', name='subsamplingRate', doc='Fraction of the training data used for learning each decision tree, in range (0, 1].'): 1.0}```
 
 Or, with a bit of better formatting:
 
 ```
-  name='maxIter', doc='maximum number of iterations (>= 0)'): 60
-  name='stepSize', doc='Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.'): 0.1
+  name='impurity', doc='Criterion used for information gain calculation (case-insensitive). Supported options: entropy, gini'): 'entropy'
+  name='maxDepth', doc='Maximum depth of the tree. (Nonnegative) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.'): 10
+  name='numTrees', doc='Number of trees to train (at least 1)'): 40
 ```
 
-So the learning rate remained at the default value but the maximum number of iteration was increased to the max provided, which could probably be expected. Of course this sort of evaluation is always a trade-off: increasing `maxIter` even further _could_ improve the score but would for sure be more computationally onerous.
+So we can see how the affecting parameters seem to be `maxDepth` and `numTrees`, that moved to the max provided. Of course this sort of evaluation is always a trade-off: increasing any of them even further _could_ improve the score but would for sure be more computationally onerous.
+
+With an optimal combination of parameters identified for the best model, we can also compare how/if the f1-score changes for each folds that the `CrossValidator` has defined. As mentioned previously, stability in the metric would be an indication of robustness of the classifier with respect to the training data.
+
+Here too we can see the difference between the datasets:
+
+_Limited Dataset_
+```
+Fold:  0 ; F1-score, Gradient-Boosted Tree classifier:  0.8613
+Fold:  1 ; F1-score, Gradient-Boosted Tree classifier:  0.7891
+Fold:  2 ; F1-score, Gradient-Boosted Tree classifier:  0.7523
+```
+
+```
+Fold:  0 ; F1-score, Random Forest classifier:  0.8571
+Fold:  1 ; F1-score, Random Forest classifier:  0.7523
+Fold:  2 ; F1-score, Random Forest classifier:  0.7944
+```
+
+_Complete Dataset_
+```
+Fold:  0 ; F1-score, Gradient-Boosted Tree classifier:  0.8854
+Fold:  1 ; F1-score, Gradient-Boosted Tree classifier:  0.8847
+Fold:  2 ; F1-score, Gradient-Boosted Tree classifier:  0.8834
+```
+
+```
+Fold:  0 ; F1-score, Random Forest classifier:  0.8771
+Fold:  1 ; F1-score, Random Forest classifier:  0.8798
+Fold:  2 ; F1-score, Random Forest classifier:  0.8823
+```
+
+It is clearly noticeable how the richer dataset provides a much better training, leading to pretty much stable metrics for both the classifiers.
 
 ---
 ## Conclusions 
