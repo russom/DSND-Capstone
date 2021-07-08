@@ -551,8 +551,14 @@ It is clearly noticeable how the richer dataset provides a much better training,
 ## Results and Conclusions 
 With this  project I demonstrated the possibility to train a classifier to predict, based on available information, whether or not a user of the "Sparkify" service will "churn" with a level of performance measured by an **f1-score > 0.8**.
 
+Specifically, I could compare and contrast several classifiers, both against a Limited (~128 MB, more than 280000 rows) and a Complete (~12 GB, more than 26 Mil rows) dataset.  
+The reference metric was the f1-score, given an imbalance in the data that presented much more users staying that leaving, and the best scoring classifier has been the **Gradient Boosted Tree** that, against the Complete dataset could achieve a final **f1-score of ~0.886**.  
+This classifiers not only outperformed the others (including, even if slightly, the Random Forest one) but also provided robust results, with a metric that didn't change much when evaluated with a k-fold cross-validator.  
+Furthermore, I ran a grid optimization process on the classifier, that however didn't produce changes with respect to the default parameters. It should be noted, though, that the grid was defined as a compromise between size of the exploration space and computational burden, so it was not intended to be particuarly exhaustive.
+
 There are a few things that I found particularly interesting in going through the experience:
 
 * First of all, the general saying that the majority of the time in Data Science is spent doing data exploration and feature engineering is absolutely true. I would say that at least 75% of the time I spent on the project went into these two phases, and it probably could have been more.
 * The actual modeling phase highlighted the differences, and added value, of the Complete data set vs. the Limited one. Indeed, while in fitting against the Limited data some classifiers (Logistic Regression and SVC) were scoring higher f1 than the others, the positions switched when evaluating against the Complete dataset. In that case, the Gradient Boosted Tree and Random Forest classifiers scored better both in relative and absolute sense.
-* The results could be improved even further through a grid optimization phase that led to a final **f1-score of ~0.89**. However, the grid parameters chosen in these project should not be considered exhaustive: indeed, it would be a possible option for further improvements to explore how to get an even better score.
+* The results could be improved even further through a grid optimization phase that changed, for example, the results for the Random Forest classifier against the Complete dataset, passing from an f1-score = 0.8798 to an f1-score = 0.8850. In general, exploring the parameter space for the classifiers to to get an even better score would definitely be a possible option for further improvements.
+* The difference between the datasets played an even bigger role when running a k-fold cross-validation analysis: in this case the limited dataset clearly showed less stable metrics, hence not enough robustness against the dataset.
