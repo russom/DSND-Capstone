@@ -454,7 +454,7 @@ This was not always predictable or repeatable: the exception would generally hap
 I found [this](https://stackoverflow.com/questions/58910023/keyerror-when-training-a-model-with-pyspark-ml-on-aws-emr-with-data-from-s3-buck) post on StackOverflow, describing a similar issue and advancing th hypothesis that the exception might in fact be related just to the Spark progress bar normally shown. However, I couldn't gather any further insight.
 
 ### Optimization and Validation
-Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases.  
+Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases (i.e. the classifiers with the better f1-score against the complete dataset).  
 Looking for a compromise between what could have been influencial parameters to change and computational load, I defined the following grids:
 
 ```
