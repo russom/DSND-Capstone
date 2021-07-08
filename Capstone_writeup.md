@@ -508,9 +508,9 @@ Looking at the Complete dataset cases (i.e. those with better scores), we can se
 Or, with a bit of better formatting:
 
 ```
-  name='impurity', doc='Criterion used for information gain calculation (case-insensitive). Supported options: entropy, gini'): 'entropy'
-  name='maxDepth', doc='Maximum depth of the tree. (Nonnegative) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.'): 10
-  name='numTrees', doc='Number of trees to train (at least 1)'): 40
+name='impurity', doc='Criterion used for information gain calculation (case-insensitive). Supported options: entropy, gini'): 'entropy'
+name='maxDepth', doc='Maximum depth of the tree. (Nonnegative) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.'): 10
+name='numTrees', doc='Number of trees to train (at least 1)'): 40
 ```
 
 So we can see how the affecting parameters seem to be `maxDepth` and `numTrees`, that moved to the max provided. Of course this sort of evaluation is always a trade-off: increasing any of them even further _could_ improve the score but would for sure be more computationally onerous.
