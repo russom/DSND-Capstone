@@ -191,10 +191,10 @@ Once introduced all the columns above we can take a look at the data:
 ```
 >```Row(artist='Sleeping With Sirens', auth='Logged In', firstName='Darianna', gender='F', itemInSession=0, lastName='Carpenter', length=202.97098, level='free', location='Bridgeport-Stamford-Norwalk, CT', method='PUT', page='NextSong', registration=1538016340.0, sessionId=31, song='Captain Tyin Knots VS Mr Walkway (No Way)', status=200, ts=1539003534.0, userAgent='"Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53"', userId='100010', churn=0, sub_dwg=0, sub_upg=0, first_ts=1539003534.0, last_ts=1542823952.0, perm_days=56.0, data_days=44.0, roll_adv=0, total_roll_adv=52, add_friend=0, total_add_friend=4, thumbs_up=0, total_thumbs_up=17, thumbs_dwn=0, total_thumbs_dwn=5)```
 
-After that, I took few more actions on the data set:
+After that, I took few more actions on the dataset:
 
 * To gain significance in the data, I filtered away all the users with less than a week of data;
-* I created a list of the churning users and a list of the users that are staying with the service. Based on those lists I divided the original data set in two: a portion for the users that leave and another for those that don't. Data from these data sets will then be compared, looking for patterns;
+* I created a list of the churning users and a list of the users that are staying with the service. Based on those lists I divided the original dataset in two: a portion for the users that leave and another for those that don't. Data from these datasets will then be compared, looking for patterns;
 * I also further refined the two previous datasets, extracting a subset from each, containing the last week of data for every user. The idea was to look for patterns of different behaviour in the churning users, as they approach the moment they leave.
 
 Once done all of that, it became possible to compare the dataset including the users that left and the one with the users that stay.  
