@@ -411,7 +411,7 @@ crossval_lr = CrossValidator(estimator = pipeline_lr, \
                              numFolds = 3, \
                              seed = 4242)
 ```
-**NOTE:** In the above lines (like elsewhere) fixing the sees ensures repeatability of the experiment.
+**NOTE:** In the above lines (like elsewhere) fixing the seed ensures repeatability of the experiment.
 
 Looking at the results, one of the most interesting things, I believe, is the difference between the Limited and Complete dataset.
 
