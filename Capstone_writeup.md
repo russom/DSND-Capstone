@@ -510,7 +510,7 @@ Or, with a bit of better formatting:
   name='stepSize', doc='Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.'): 0.1
 ```
 
-So the learning rate remained at the default value but the maximum number of iteration was increased to the max provided. Of course this sort of evaluation is always a trade-off: increasing `maxIter` even further could improve the score but would for sure be ore computationally onerous.
+So the learning rate remained at the default value but the maximum number of iteration was increased to the max provided, which could probably be expected. Of course this sort of evaluation is always a trade-off: increasing `maxIter` even further _could_ improve the score but would for sure be more computationally onerous.
 
 ---
 ## Conclusions 
