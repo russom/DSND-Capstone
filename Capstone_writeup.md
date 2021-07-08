@@ -26,7 +26,7 @@ Both the notebooks provided present the same table of contents; at a high level 
 3. [Data Exploration](#data-exploration)
 4. [Feature Engineering](#feature-engineering)
 5. [Modeling](#modeling)
-6. [Optimization](#optimization)
+6. [Optimization and Validation](#optimization-and-Validation)
 
 In the following we'll see details on all of them (except for the first one). I will mostly make reference to the `local` notebook, clarifying when I show results from the `EMR` one as I go.
 
@@ -453,7 +453,7 @@ In proceeding with the fitting on the EMR cluster, I often received an exception
 This was not always predictable or repeatable: the exception would generally happen during this phase, but not necessarily always at the same cell. Also, the body of the message might change slighlty, with `KeyError` making reference to different values. At any rate, the execution of the code could proceed after that, with no other noticeable effect.  
 I found [this](https://stackoverflow.com/questions/58910023/keyerror-when-training-a-model-with-pyspark-ml-on-aws-emr-with-data-from-s3-buck) post on StackOverflow, describing a similar issue and advancing th hypothesis that the exception might in fact be related just to the Spark progress bar normally shown. However, I couldn't gather any further insight.
 
-### Optimization
+### Optimization and Validation
 Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases.  
 Looking for a compromise between what could have been influencial parameters to change and computational load, I defined the following grids:
 
