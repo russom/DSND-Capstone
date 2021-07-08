@@ -397,7 +397,7 @@ In terms of phases:
 ```
 
 After that, I proceeded in fitting and evaluating the four classifiers.  
-In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), folding the dataset with k=3, so to ensure robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
+In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), folding the dataset with `k = 3`, so to ensure robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
 
 ```
 # Empty parameter grid
@@ -454,7 +454,8 @@ This was not always predictable or repeatable: the exception would generally hap
 I found [this](https://stackoverflow.com/questions/58910023/keyerror-when-training-a-model-with-pyspark-ml-on-aws-emr-with-data-from-s3-buck) post on StackOverflow, describing a similar issue and advancing th hypothesis that the exception might in fact be related just to the Spark progress bar normally shown. However, I couldn't gather any further insight.
 
 ### Optimization
-Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases. I defined the following grids:
+Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases.  
+Looking for a compromise between what could have been influencial parameters to change and computational load, I defined the following grids:
 
 ```
   # Gradient Boosted Tree 
