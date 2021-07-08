@@ -248,7 +248,7 @@ Mean =  0.41 ; Std. Dev. =  0.44
 ---------------------------------------------------------
 ```
 
-#### _Thumds Down given per day_
+#### _Thumbs Down given per day_
 
 <p align="center">
   <img alt="Thumbs Down Given per Day" src="./pictures/Thumbs-Down-per-Day.png">
