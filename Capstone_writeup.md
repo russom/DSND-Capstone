@@ -12,14 +12,14 @@ The data for this project was provided by Udacity in JSON format, in two differe
 The way I tried to solve this problem was to build a classifier to predict, based on the provided data, whether or not a user would churn. I used the tools provided by [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), trainining the classifier on a portion of the data, and testing it on the remaining part.
 
 Before actually introducing the classifier I went through an extensive data exploration phase that led me to the identification of a subset of significant features that could be effective in identifying users that leave.  
-After that I could actually move into the modeling phase. I approached that in a two steps:
+After that I could actually move into the modeling phase. I approached that in two steps:
 
-* I initially traind and compared the results of a few of the classifiers available in Spark, using their default parameters, in order to identify those more fitting to the analyzed dataset;
+* I initially trained and compared the results of a few of the classifiers available in Spark, using their default parameters, in order to identify those better resonding to the analyzed dataset;
 * Afterwards I moved on with an optimization phase in which I could provide a grid of options for some of the parameters and verify if/how changing them could lead to better results.
 
 ---
 ## Content of the notebooks
-Both the notebook present the same table of contents; at a high level we have the following sections:
+Both the notebooks provided present the same table of contents; at a high level we have the following sections:
 
 1. Load Libraries
 2. [Load and Clean Dataset](#load-and-clean-dataset)
