@@ -456,7 +456,7 @@ I found [this](https://stackoverflow.com/questions/58910023/keyerror-when-traini
 
 ### Optimization and Validation
 Once fitted the classifiers with the default parameters, I proceeded with an optimization for the Gradient Boosted Tree and Random Forest cases (i.e. the classifiers with the better f1-score against the complete dataset).  
-Looking for a compromise between what could have been influencial parameters to change and computational load, I defined the following grids:
+Looking for a compromise between what could have been influential parameters to change and computational load, I defined the following grids:
 
 ```
   # Gradient Boosted Tree 
