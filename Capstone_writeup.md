@@ -494,7 +494,8 @@ F1-score, Gradient-Boosted Tree classifier:  0.8858
 F1-score, Random Forest classifier:  0.8850
 ```
 
-It is interesting to evaluate how much the parameters were changed with respect to the default. Looking at the Complete dataset cases (i.e. those with better scores), we can see that the Gradient-Boosted Tree classifier remained with the default parameters, while for the Random Forest one we have:
+It is interesting to evaluate how much the parameters were changed with respect to the default.  
+Looking at the Complete dataset cases (i.e. those with better scores), we can see that the Gradient-Boosted Tree classifier remained with the default parameters, while for the Random Forest one we have:
 
 ```
   bestRFPipeline = cvModel_rf_o.bestModel
