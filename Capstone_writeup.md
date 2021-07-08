@@ -9,7 +9,7 @@ The data for this project was provided by Udacity in JSON format, in two differe
 * A _Complete_ dataset (~12 GB, more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
 
 ## Solution Strategy and Approach
-The way I tried to solve this problem was to build a classifier to predict, based on the provided data, whether or not a user would churn. I used the tools provided by [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), trainining the classifier on a portion of the data, and testing it on the remaining part.
+The way I tried to solve this problem was to build a classifier to predict, based on the provided data, whether or not a user would churn. I used the tools provided by [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), training the classifier on a portion of the data, and testing it on the remaining part.
 
 Before actually introducing the classifier I went through an extensive data exploration phase that led me to the identification of a subset of significant features that could be effective in identifying users that leave.  
 
