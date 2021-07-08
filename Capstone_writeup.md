@@ -280,7 +280,7 @@ Mean =  0.46 ; Std. Dev. =  0.64
 ----------------------------------------------------------
 ```
 
-Beyond the behavioural quantities I also took a look at some deomgraphic indicators: gender of the subscriber and location (expressed in terms of State).
+Beyond the behavioural quantities I also took a look at some demographic indicators: the gender of the subscribers and their location (expressed in terms of State).
 
 #### _Gender of the Users_
 
