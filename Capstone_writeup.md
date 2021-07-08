@@ -496,7 +496,7 @@ F1-score, Random Forest classifier:  0.8850
 ```
 
 It is interesting to evaluate how much the parameters were changed with respect to the default.  
-Looking at the Complete dataset cases (i.e. those with better scores), we can see that the Gradient-Boosted Tree classifier, even though still the best one, actually remained with the default parameters, while for the Random Forest case we have:
+Looking at the Complete dataset cases (i.e. those with better scores), we can see that the Gradient-Boosted Tree classifier, even though still the best one, actually remained with the default parameters (see the [notebook](./notebooks/sparkify-project-EMR.ipynb) for details), while for the Random Forest case we have:
 
 ```
   bestRFPipeline = cvModel_rf_o.bestModel
