@@ -8,6 +8,15 @@ The data for this project was provided by Udacity in JSON format, in two differe
 * A _Limited_ dataset (~128 MB, more than 280000 rows), to be used for analysis on a local machine. This is what I use in the [`Sparkify-project-local`](./notebooks/Sparkify-project-local.ipynb) notebook; the actual dataset can be downloaded from [here](https://drive.google.com/file/d/1gX1X-D8G4vE29AAUeQHapv5P_vNs6Jcv/view?usp=sharing).
 * A _Complete_ dataset (~12 GB, more than 26 Mil rows), to be loaded on a cluster. This is what I explore in the [`Sparkify-project-EMR`](./notebooks/Sparkify-project-EMR.ipynb) notebook: it is stored in an [AWS S3](https://aws.amazon.com/s3/) bucket available at `s3n://udacity-dsnd/sparkify/sparkify_event_data.json`.
 
+## Solution Strategy and Approach
+The way I tried to solve this problem was to build a classifier to predict, based on the provided data, whether or not a user would churn. I used the tools provided by [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), trainining the classifier on a portion of the data, and testing it on the remaining part.
+
+Before actually introducing the classifier I went through an extensive data exploration phase that led me to the identification of a subset of significant features that could be effective in identifying users that leave.  
+After that I could actually move into the modeling phase. I approached that in a two steps:
+
+* I initially traind and compared the results of a few of the classifiers available in Spark, using their default parameters, in order to identify those more fitting to the analyzed dataset;
+* Afterwards I moved on with an optimization phase in which I could provide a grid of options for some of the parameters and verify if/how changing them could lead to better results.
+
 ---
 ## Content of the notebooks
 Both the notebook present the same table of contents; at a high level we have the following sections:
@@ -66,9 +75,7 @@ We can check an example of the data extracting the first row:
   # Show the first row
   df_user_log.head()
 ```
-```
-Row(artist='Martha Tilston', auth='Logged In', firstName='Colin', gender='M', itemInSession=50, lastName='Freeman', length=277.89016, level='paid', location='Bakersfield, CA', method='PUT', page='NextSong', registration=1538173362000, sessionId=29, song='Rockpools', status=200, ts=1538352117000, userAgent='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0', userId='30')
-```
+>```Row(artist='Martha Tilston', auth='Logged In', firstName='Colin', gender='M', itemInSession=50, lastName='Freeman', length=277.89016, level='paid', location='Bakersfield, CA', method='PUT', page='NextSong', registration=1538173362000, sessionId=29, song='Rockpools', status=200, ts=1538352117000, userAgent='Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0', userId='30')```
 
 It's also possible to check the number of rows and columns in the dataset. Here, of course, we could see the difference between the limited dataset and the full one:
 
@@ -181,9 +188,7 @@ Once introduced all the columns above we can take a look at the data:
   # Check columns
   df_user_log_valid.head()
 ```
-```
-Row(artist='Sleeping With Sirens', auth='Logged In', firstName='Darianna', gender='F', itemInSession=0, lastName='Carpenter', length=202.97098, level='free', location='Bridgeport-Stamford-Norwalk, CT', method='PUT', page='NextSong', registration=1538016340.0, sessionId=31, song='Captain Tyin Knots VS Mr Walkway (No Way)', status=200, ts=1539003534.0, userAgent='"Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53"', userId='100010', churn=0, sub_dwg=0, sub_upg=0, first_ts=1539003534.0, last_ts=1542823952.0, perm_days=56.0, data_days=44.0, roll_adv=0, total_roll_adv=52, add_friend=0, total_add_friend=4, thumbs_up=0, total_thumbs_up=17, thumbs_dwn=0, total_thumbs_dwn=5)
-```
+>```Row(artist='Sleeping With Sirens', auth='Logged In', firstName='Darianna', gender='F', itemInSession=0, lastName='Carpenter', length=202.97098, level='free', location='Bridgeport-Stamford-Norwalk, CT', method='PUT', page='NextSong', registration=1538016340.0, sessionId=31, song='Captain Tyin Knots VS Mr Walkway (No Way)', status=200, ts=1539003534.0, userAgent='"Mozilla/5.0 (iPhone; CPU iPhone OS 7_1_2 like Mac OS X) AppleWebKit/537.51.2 (KHTML, like Gecko) Version/7.0 Mobile/11D257 Safari/9537.53"', userId='100010', churn=0, sub_dwg=0, sub_upg=0, first_ts=1539003534.0, last_ts=1542823952.0, perm_days=56.0, data_days=44.0, roll_adv=0, total_roll_adv=52, add_friend=0, total_add_friend=4, thumbs_up=0, total_thumbs_up=17, thumbs_dwn=0, total_thumbs_dwn=5)```
 
 After that, I took few more actions on the data set:
 
@@ -323,9 +328,7 @@ All the features are grouped by userId. An example of the dataset format after t
   # Check the data
   df_user_logs_mod.head()
 ```
-```
-Row(id='100010', rolledAdvDay=1.1818181818181819, addedFriendDay=0.09090909090909091, thumbsDwnDay=0.022727272727272728, songsDay=6.113636363636363, permanence=56.0, label=0)
-```
+>```Row(id='100010', rolledAdvDay=1.1818181818181819, addedFriendDay=0.09090909090909091, thumbsDwnDay=0.022727272727272728, songsDay=6.113636363636363, permanence=56.0, label=0)```
 
 ### Modeling
 In this section, I compared a few of the classifiers available in [Spark](https://spark.apache.org/docs/latest/ml-classification-regression.html), considering, for all of them, their reference parameters (i.e., I did not run any grid optimization here). I chose:
@@ -394,7 +397,22 @@ In terms of phases:
 ```
 
 After that, I proceeded in fitting and evaluating the four classifiers.  
-The most interesting thing in doing that, I believe, is the difference in results between the Limited and Complete dataset.
+In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), folding the dataset with k=3, so to ensure robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
+
+```
+paramgrid_lr = ParamGridBuilder()\
+    .build()
+
+# Crossvalidator 
+crossval_lr = CrossValidator(estimator = pipeline_lr, \
+                             estimatorParamMaps = paramgrid_lr, \
+                             evaluator = evaluator, \
+                             numFolds = 3, \
+                             seed = 4242)
+```
+**NOTE:** In the above lines (like elsewhere) fixing the sees ensures repeatability of the experiment.
+
+Looking at the results, one of the most interesting things, I believe, is the difference between the Limited and Complete dataset.
 
 _Limited Dataset_
 ```
@@ -424,7 +442,7 @@ F1-score, Random Forest classifier:  0.8828
 F1-score, Linear Support Vector Machine classifier:  0.8296
 ```
 
-**NOTE**  
+**NOTE:**  
 In proceeding with the fitting on the EMR cluster, I often received an exception similar to this:
 
 <p align="center">
@@ -454,8 +472,9 @@ Once fitted the classifiers with the default parameters, I proceeded with an opt
      .addGrid(rf.numTrees, [20, 40])\
      .build()
 ```
+**NOTE:** In the above grids the first value for each parameter is the default.
 
-Obtaining, in both cases, some improvement in the score:
+In both cases I obtained some improvement in the score:
 
 _Limited Dataset_
 ```
@@ -472,6 +491,25 @@ F1-score, Gradient-Boosted Tree classifier:  0.8859
 ```
 F1-score, Random Forest classifier:  0.8850
 ```
+
+It is interesting to evaluate how much the parameters were changed with respect to the default. Looking at the Gradient-Boosted Tree trained on the complete dataset (i.e. the classifier with the best score) we have:
+
+```
+  bestGBTPipeline = cvModel_gbt_o.bestModel
+  bestGBTModel = bestGBTPipeline.stages[2]
+  bestGBTParams = bestGBTModel.extractParamMap()
+  bestGBTParams
+```
+>```{Param(parent='GBTClassifier_3fb74596c770', name='cacheNodeIds', doc='If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees.'): False, Param(parent='GBTClassifier_3fb74596c770', name='checkpointInterval', doc='set checkpoint interval (>= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext'): 10, Param(parent='GBTClassifier_3fb74596c770', name='featureSubsetStrategy', doc='The number of features to consider for splits at each tree node. Supported options: auto, all, onethird, sqrt, log2, (0.0-1.0], [1-n].'): 'all', Param(parent='GBTClassifier_3fb74596c770', name='featuresCol', doc='features column name'): 'features', Param(parent='GBTClassifier_3fb74596c770', name='labelCol', doc='label column name'): 'label', Param(parent='GBTClassifier_3fb74596c770', name='lossType', doc='Loss function which GBT tries to minimize (case-insensitive). Supported options: logistic'): 'logistic', Param(parent='GBTClassifier_3fb74596c770', name='maxBins', doc='Max number of bins for discretizing continuous features.  Must be at least 2 and at least number of categories for any categorical feature.'): 32, Param(parent='GBTClassifier_3fb74596c770', name='maxDepth', doc='Maximum depth of the tree. (Nonnegative) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.'): 5, Param(parent='GBTClassifier_3fb74596c770', name='maxIter', doc='maximum number of iterations (>= 0)'): 60, Param(parent='GBTClassifier_3fb74596c770', name='maxMemoryInMB', doc='Maximum memory in MB allocated to histogram aggregation.'): 256, Param(parent='GBTClassifier_3fb74596c770', name='minInfoGain', doc='Minimum information gain for a split to be considered at a tree node.'): 0.0, Param(parent='GBTClassifier_3fb74596c770', name='minInstancesPerNode', doc='Minimum number of instances each child must have after split.  If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Must be at least 1.'): 1, Param(parent='GBTClassifier_3fb74596c770', name='predictionCol', doc='prediction column name'): 'prediction', Param(parent='GBTClassifier_3fb74596c770', name='seed', doc='random seed'): 3504127614838123891, Param(parent='GBTClassifier_3fb74596c770', name='stepSize', doc='Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.'): 0.1, Param(parent='GBTClassifier_3fb74596c770', name='subsamplingRate', doc='Fraction of the training data used for learning each decision tree, in range (0, 1].'): 1.0}```
+
+Or, with a bit of better formatting:
+
+```
+  name='maxIter', doc='maximum number of iterations (>= 0)'): 60
+  name='stepSize', doc='Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.'): 0.1
+```
+
+So the learning rate remained at the default value but the maximum number of iteration was increased to the max provided. Of course this sort of evaluation is always a trade-off: increasing `maxIter` even further could improve the score but would for sure be ore computationally onerous.
 
 ---
 ## Conclusions 
