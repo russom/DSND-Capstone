@@ -18326,6 +18326,7 @@ Num. of samples in test dataset:  42
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <p>Given the previous results with the default parameters, we can now try to explore the parameters'grids to see whether or not the performances of the models can be improved.<br>
 In particular, I will define optimization grids for both the Gradient Boosted Tree and the Random Forest classifiers.</p>
+<p>Moreover, in the next cells I will add the <code>collectSubModels = True</code> option in the <code>CrossValidator</code> to keep track of the performances in the various folds.</p>
 
 </div>
 </div>
@@ -18336,7 +18337,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[138]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[154]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Parameter grid</span>
@@ -18350,7 +18351,8 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
                                 <span class="n">estimatorParamMaps</span> <span class="o">=</span> <span class="n">paramgrid_gbt_o</span><span class="p">,</span> \
                                 <span class="n">evaluator</span> <span class="o">=</span> <span class="n">evaluator</span><span class="p">,</span> \
                                 <span class="n">numFolds</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> \
-                                <span class="n">seed</span> <span class="o">=</span> <span class="mi">4242</span><span class="p">)</span>
+                                <span class="n">seed</span> <span class="o">=</span> <span class="mi">4242</span><span class="p">,</span> \
+                                <span class="n">collectSubModels</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18361,7 +18363,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[139]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[155]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Train</span>
@@ -18376,7 +18378,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[140]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[156]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate</span>
@@ -18420,7 +18422,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[141]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[157]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bestGBTPipeline</span> <span class="o">=</span> <span class="n">cvModel_gbt_o</span><span class="o">.</span><span class="n">bestModel</span>
@@ -18442,36 +18444,83 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[141]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[157]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>{Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;cacheNodeIds&#39;, doc=&#39;If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees. Users can set how often should the cache be checkpointed or disable it by setting checkpointInterval.&#39;): False,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;checkpointInterval&#39;, doc=&#39;set checkpoint interval (&gt;= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext.&#39;): 10,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;featureSubsetStrategy&#39;, doc=&#34;The number of features to consider for splits at each tree node. Supported options: &#39;auto&#39; (choose automatically for task: If numTrees == 1, set to &#39;all&#39;. If numTrees &gt; 1 (forest), set to &#39;sqrt&#39; for classification and to &#39;onethird&#39; for regression), &#39;all&#39; (use all features), &#39;onethird&#39; (use 1/3 of the features), &#39;sqrt&#39; (use sqrt(number of features)), &#39;log2&#39; (use log2(number of features)), &#39;n&#39; (when n is in the range (0, 1.0], use n * number of features. When n is in the range (1, number of features), use n features). default = &#39;auto&#39;&#34;): &#39;all&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;featuresCol&#39;, doc=&#39;features column name.&#39;): &#39;features&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;impurity&#39;, doc=&#39;Criterion used for information gain calculation (case-insensitive). Supported options: variance&#39;): &#39;variance&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;labelCol&#39;, doc=&#39;label column name.&#39;): &#39;label&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;leafCol&#39;, doc=&#39;Leaf indices column name. Predicted leaf index of each instance in each tree by preorder.&#39;): &#39;&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;lossType&#39;, doc=&#39;Loss function which GBT tries to minimize (case-insensitive). Supported options: logistic&#39;): &#39;logistic&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;maxBins&#39;, doc=&#39;Max number of bins for discretizing continuous features.  Must be &gt;=2 and &gt;= number of categories for any categorical feature.&#39;): 32,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;maxDepth&#39;, doc=&#39;Maximum depth of the tree. (&gt;= 0) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.&#39;): 5,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;maxIter&#39;, doc=&#39;max number of iterations (&gt;= 0).&#39;): 20,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;maxMemoryInMB&#39;, doc=&#39;Maximum memory in MB allocated to histogram aggregation. If too small, then 1 node will be split per iteration, and its aggregates may exceed this size.&#39;): 256,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;minInfoGain&#39;, doc=&#39;Minimum information gain for a split to be considered at a tree node.&#39;): 0.0,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;minInstancesPerNode&#39;, doc=&#39;Minimum number of instances each child must have after split. If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Should be &gt;= 1.&#39;): 1,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;minWeightFractionPerNode&#39;, doc=&#39;Minimum fraction of the weighted sample count that each child must have after split. If a split causes the fraction of the total weight in the left or right child to be less than minWeightFractionPerNode, the split will be discarded as invalid. Should be in interval [0.0, 0.5).&#39;): 0.0,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;predictionCol&#39;, doc=&#39;prediction column name.&#39;): &#39;prediction&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;probabilityCol&#39;, doc=&#39;Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities.&#39;): &#39;probability&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;rawPredictionCol&#39;, doc=&#39;raw prediction (a.k.a. confidence) column name.&#39;): &#39;rawPrediction&#39;,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;seed&#39;, doc=&#39;random seed.&#39;): -8286523301938642565,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;stepSize&#39;, doc=&#39;Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.&#39;): 0.25,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;subsamplingRate&#39;, doc=&#39;Fraction of the training data used for learning each decision tree, in range (0, 1].&#39;): 1.0,
- Param(parent=&#39;GBTClassifier_dcd290a558a7&#39;, name=&#39;validationTol&#39;, doc=&#39;Threshold for stopping early when fit with validation is used. If the error rate on the validation input changes by less than the validationTol, then learning will stop early (before `maxIter`). This parameter is ignored when fit without validation is used.&#39;): 0.01}</pre>
+<pre>{Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;cacheNodeIds&#39;, doc=&#39;If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees. Users can set how often should the cache be checkpointed or disable it by setting checkpointInterval.&#39;): False,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;checkpointInterval&#39;, doc=&#39;set checkpoint interval (&gt;= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext.&#39;): 10,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;featureSubsetStrategy&#39;, doc=&#34;The number of features to consider for splits at each tree node. Supported options: &#39;auto&#39; (choose automatically for task: If numTrees == 1, set to &#39;all&#39;. If numTrees &gt; 1 (forest), set to &#39;sqrt&#39; for classification and to &#39;onethird&#39; for regression), &#39;all&#39; (use all features), &#39;onethird&#39; (use 1/3 of the features), &#39;sqrt&#39; (use sqrt(number of features)), &#39;log2&#39; (use log2(number of features)), &#39;n&#39; (when n is in the range (0, 1.0], use n * number of features. When n is in the range (1, number of features), use n features). default = &#39;auto&#39;&#34;): &#39;all&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;featuresCol&#39;, doc=&#39;features column name.&#39;): &#39;features&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;impurity&#39;, doc=&#39;Criterion used for information gain calculation (case-insensitive). Supported options: variance&#39;): &#39;variance&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;labelCol&#39;, doc=&#39;label column name.&#39;): &#39;label&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;leafCol&#39;, doc=&#39;Leaf indices column name. Predicted leaf index of each instance in each tree by preorder.&#39;): &#39;&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;lossType&#39;, doc=&#39;Loss function which GBT tries to minimize (case-insensitive). Supported options: logistic&#39;): &#39;logistic&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;maxBins&#39;, doc=&#39;Max number of bins for discretizing continuous features.  Must be &gt;=2 and &gt;= number of categories for any categorical feature.&#39;): 32,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;maxDepth&#39;, doc=&#39;Maximum depth of the tree. (&gt;= 0) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.&#39;): 5,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;maxIter&#39;, doc=&#39;max number of iterations (&gt;= 0).&#39;): 20,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;maxMemoryInMB&#39;, doc=&#39;Maximum memory in MB allocated to histogram aggregation. If too small, then 1 node will be split per iteration, and its aggregates may exceed this size.&#39;): 256,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;minInfoGain&#39;, doc=&#39;Minimum information gain for a split to be considered at a tree node.&#39;): 0.0,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;minInstancesPerNode&#39;, doc=&#39;Minimum number of instances each child must have after split. If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Should be &gt;= 1.&#39;): 1,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;minWeightFractionPerNode&#39;, doc=&#39;Minimum fraction of the weighted sample count that each child must have after split. If a split causes the fraction of the total weight in the left or right child to be less than minWeightFractionPerNode, the split will be discarded as invalid. Should be in interval [0.0, 0.5).&#39;): 0.0,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;predictionCol&#39;, doc=&#39;prediction column name.&#39;): &#39;prediction&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;probabilityCol&#39;, doc=&#39;Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities.&#39;): &#39;probability&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;rawPredictionCol&#39;, doc=&#39;raw prediction (a.k.a. confidence) column name.&#39;): &#39;rawPrediction&#39;,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;seed&#39;, doc=&#39;random seed.&#39;): 2538608314830576357,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;stepSize&#39;, doc=&#39;Step size (a.k.a. learning rate) in interval (0, 1] for shrinking the contribution of each estimator.&#39;): 0.25,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;subsamplingRate&#39;, doc=&#39;Fraction of the training data used for learning each decision tree, in range (0, 1].&#39;): 1.0,
+ Param(parent=&#39;GBTClassifier_727e3247e926&#39;, name=&#39;validationTol&#39;, doc=&#39;Threshold for stopping early when fit with validation is used. If the error rate on the validation input changes by less than the validationTol, then learning will stop early (before `maxIter`). This parameter is ignored when fit without validation is used.&#39;): 0.01}</pre>
 </div>
 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Another test that we can do here is to evaluate the metrics for every one of the folds the dataset was divided in by the CrossValidator. This would allow us to check the robustness of the results against the training data.</p>
+<p><strong>Note</strong>: I am comparing only the models that, for every fold, have the same combination of parameters of the best one.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[173]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate submodels</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cvModel_gbt_o</span><span class="o">.</span><span class="n">subModels</span><span class="p">)):</span>
+    <span class="n">f1_Score_gbt_s</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">cvModel_gbt_o</span><span class="o">.</span><span class="n">subModels</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fold: &#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;; F1-score, Gradient-Boosted Tree classifier: &#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f1_Score_gbt_s</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Fold:  0 ; F1-score, Gradient-Boosted Tree classifier:  0.8613
+Fold:  1 ; F1-score, Gradient-Boosted Tree classifier:  0.7891
+Fold:  2 ; F1-score, Gradient-Boosted Tree classifier:  0.7523
+</pre>
+</div>
 </div>
 
 </div>
@@ -18486,7 +18535,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[142]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[174]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Parameter grid</span>
@@ -18501,7 +18550,8 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
                                <span class="n">estimatorParamMaps</span> <span class="o">=</span> <span class="n">paramgrid_rf_o</span><span class="p">,</span> \
                                <span class="n">evaluator</span> <span class="o">=</span> <span class="n">evaluator</span><span class="p">,</span> \
                                <span class="n">numFolds</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> \
-                               <span class="n">seed</span> <span class="o">=</span> <span class="mi">4242</span><span class="p">)</span>
+                               <span class="n">seed</span> <span class="o">=</span> <span class="mi">4242</span><span class="p">,</span> \
+                               <span class="n">collectSubModels</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -18512,7 +18562,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[143]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[175]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Train</span>
@@ -18527,7 +18577,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[144]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[176]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate</span>
@@ -18571,7 +18621,7 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[145]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[177]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">bestRFPipeline</span> <span class="o">=</span> <span class="n">cvModel_rf_o</span><span class="o">.</span><span class="n">bestModel</span>
@@ -18593,34 +18643,80 @@ In particular, I will define optimization grids for both the Gradient Boosted Tr
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[145]:</div>
+    <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[177]:</div>
 
 
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>{Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;bootstrap&#39;, doc=&#39;Whether bootstrap samples are used when building trees.&#39;): True,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;cacheNodeIds&#39;, doc=&#39;If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees. Users can set how often should the cache be checkpointed or disable it by setting checkpointInterval.&#39;): False,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;checkpointInterval&#39;, doc=&#39;set checkpoint interval (&gt;= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext.&#39;): 10,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;featureSubsetStrategy&#39;, doc=&#34;The number of features to consider for splits at each tree node. Supported options: &#39;auto&#39; (choose automatically for task: If numTrees == 1, set to &#39;all&#39;. If numTrees &gt; 1 (forest), set to &#39;sqrt&#39; for classification and to &#39;onethird&#39; for regression), &#39;all&#39; (use all features), &#39;onethird&#39; (use 1/3 of the features), &#39;sqrt&#39; (use sqrt(number of features)), &#39;log2&#39; (use log2(number of features)), &#39;n&#39; (when n is in the range (0, 1.0], use n * number of features. When n is in the range (1, number of features), use n features). default = &#39;auto&#39;&#34;): &#39;auto&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;featuresCol&#39;, doc=&#39;features column name.&#39;): &#39;features&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;impurity&#39;, doc=&#39;Criterion used for information gain calculation (case-insensitive). Supported options: entropy, gini&#39;): &#39;entropy&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;labelCol&#39;, doc=&#39;label column name.&#39;): &#39;label&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;leafCol&#39;, doc=&#39;Leaf indices column name. Predicted leaf index of each instance in each tree by preorder.&#39;): &#39;&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;maxBins&#39;, doc=&#39;Max number of bins for discretizing continuous features.  Must be &gt;=2 and &gt;= number of categories for any categorical feature.&#39;): 32,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;maxDepth&#39;, doc=&#39;Maximum depth of the tree. (&gt;= 0) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.&#39;): 5,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;maxMemoryInMB&#39;, doc=&#39;Maximum memory in MB allocated to histogram aggregation. If too small, then 1 node will be split per iteration, and its aggregates may exceed this size.&#39;): 256,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;minInfoGain&#39;, doc=&#39;Minimum information gain for a split to be considered at a tree node.&#39;): 0.0,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;minInstancesPerNode&#39;, doc=&#39;Minimum number of instances each child must have after split. If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Should be &gt;= 1.&#39;): 1,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;minWeightFractionPerNode&#39;, doc=&#39;Minimum fraction of the weighted sample count that each child must have after split. If a split causes the fraction of the total weight in the left or right child to be less than minWeightFractionPerNode, the split will be discarded as invalid. Should be in interval [0.0, 0.5).&#39;): 0.0,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;numTrees&#39;, doc=&#39;Number of trees to train (&gt;= 1).&#39;): 40,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;predictionCol&#39;, doc=&#39;prediction column name.&#39;): &#39;prediction&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;probabilityCol&#39;, doc=&#39;Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities.&#39;): &#39;probability&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;rawPredictionCol&#39;, doc=&#39;raw prediction (a.k.a. confidence) column name.&#39;): &#39;rawPrediction&#39;,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;seed&#39;, doc=&#39;random seed.&#39;): 42,
- Param(parent=&#39;RandomForestClassifier_2c3ed5c65333&#39;, name=&#39;subsamplingRate&#39;, doc=&#39;Fraction of the training data used for learning each decision tree, in range (0, 1].&#39;): 1.0}</pre>
+<pre>{Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;bootstrap&#39;, doc=&#39;Whether bootstrap samples are used when building trees.&#39;): True,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;cacheNodeIds&#39;, doc=&#39;If false, the algorithm will pass trees to executors to match instances with nodes. If true, the algorithm will cache node IDs for each instance. Caching can speed up training of deeper trees. Users can set how often should the cache be checkpointed or disable it by setting checkpointInterval.&#39;): False,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;checkpointInterval&#39;, doc=&#39;set checkpoint interval (&gt;= 1) or disable checkpoint (-1). E.g. 10 means that the cache will get checkpointed every 10 iterations. Note: this setting will be ignored if the checkpoint directory is not set in the SparkContext.&#39;): 10,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;featureSubsetStrategy&#39;, doc=&#34;The number of features to consider for splits at each tree node. Supported options: &#39;auto&#39; (choose automatically for task: If numTrees == 1, set to &#39;all&#39;. If numTrees &gt; 1 (forest), set to &#39;sqrt&#39; for classification and to &#39;onethird&#39; for regression), &#39;all&#39; (use all features), &#39;onethird&#39; (use 1/3 of the features), &#39;sqrt&#39; (use sqrt(number of features)), &#39;log2&#39; (use log2(number of features)), &#39;n&#39; (when n is in the range (0, 1.0], use n * number of features. When n is in the range (1, number of features), use n features). default = &#39;auto&#39;&#34;): &#39;auto&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;featuresCol&#39;, doc=&#39;features column name.&#39;): &#39;features&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;impurity&#39;, doc=&#39;Criterion used for information gain calculation (case-insensitive). Supported options: entropy, gini&#39;): &#39;entropy&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;labelCol&#39;, doc=&#39;label column name.&#39;): &#39;label&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;leafCol&#39;, doc=&#39;Leaf indices column name. Predicted leaf index of each instance in each tree by preorder.&#39;): &#39;&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;maxBins&#39;, doc=&#39;Max number of bins for discretizing continuous features.  Must be &gt;=2 and &gt;= number of categories for any categorical feature.&#39;): 32,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;maxDepth&#39;, doc=&#39;Maximum depth of the tree. (&gt;= 0) E.g., depth 0 means 1 leaf node; depth 1 means 1 internal node + 2 leaf nodes.&#39;): 5,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;maxMemoryInMB&#39;, doc=&#39;Maximum memory in MB allocated to histogram aggregation. If too small, then 1 node will be split per iteration, and its aggregates may exceed this size.&#39;): 256,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;minInfoGain&#39;, doc=&#39;Minimum information gain for a split to be considered at a tree node.&#39;): 0.0,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;minInstancesPerNode&#39;, doc=&#39;Minimum number of instances each child must have after split. If a split causes the left or right child to have fewer than minInstancesPerNode, the split will be discarded as invalid. Should be &gt;= 1.&#39;): 1,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;minWeightFractionPerNode&#39;, doc=&#39;Minimum fraction of the weighted sample count that each child must have after split. If a split causes the fraction of the total weight in the left or right child to be less than minWeightFractionPerNode, the split will be discarded as invalid. Should be in interval [0.0, 0.5).&#39;): 0.0,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;numTrees&#39;, doc=&#39;Number of trees to train (&gt;= 1).&#39;): 40,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;predictionCol&#39;, doc=&#39;prediction column name.&#39;): &#39;prediction&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;probabilityCol&#39;, doc=&#39;Column name for predicted class conditional probabilities. Note: Not all models output well-calibrated probability estimates! These probabilities should be treated as confidences, not precise probabilities.&#39;): &#39;probability&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;rawPredictionCol&#39;, doc=&#39;raw prediction (a.k.a. confidence) column name.&#39;): &#39;rawPrediction&#39;,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;seed&#39;, doc=&#39;random seed.&#39;): 42,
+ Param(parent=&#39;RandomForestClassifier_e5678fb42946&#39;, name=&#39;subsamplingRate&#39;, doc=&#39;Fraction of the training data used for learning each decision tree, in range (0, 1].&#39;): 1.0}</pre>
 </div>
 
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Here too we can check the score for the models that, for every fold, have the same combination of parameters of the best one:</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[182]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Evaluate submodels</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cvModel_rf_o</span><span class="o">.</span><span class="n">subModels</span><span class="p">)):</span>
+    <span class="n">f1_Score_gbt_s</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">cvModel_rf_o</span><span class="o">.</span><span class="n">subModels</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Fold: &#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;; F1-score, Random Forest classifier: &#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">{:.4f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">f1_Score_gbt_s</span><span class="p">))</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
+<pre>Fold:  0 ; F1-score, Random Forest classifier:  0.8571
+Fold:  1 ; F1-score, Random Forest classifier:  0.7523
+Fold:  2 ; F1-score, Random Forest classifier:  0.7944
+</pre>
+</div>
 </div>
 
 </div>
