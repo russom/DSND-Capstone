@@ -15,7 +15,7 @@ Before actually introducing the classifier I went through an extensive data expl
 
 After that I could actually move into the modeling phase. I approached that in two steps:
 
-* I initially trained and compared the results of a few of the classifiers available in Spark, using their default parameters, in order to identify those better resonding to the analyzed dataset;
+* I initially trained and compared the results of a few of the classifiers available in Spark, using their default parameters, in order to identify those with the better behaviour against the analyzed dataset;
 * Afterwards I moved on with an optimization phase in which I could provide a grid of options for some of the parameters and verify if/how changing them could lead to better results.
 
 ---
