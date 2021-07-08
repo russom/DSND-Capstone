@@ -555,7 +555,7 @@ With this  project I demonstrated the possibility to train a classifier to predi
 Specifically, I could compare and contrast several classifiers, both against a Limited (~128 MB, more than 280000 rows) and a Complete (~12 GB, more than 26 Mil rows) dataset.  
 The reference metric was the f1-score, given an imbalance in the data that presented much more users staying that leaving, and the best scoring classifier has been the **Gradient Boosted Tree** that, against the Complete dataset could achieve a final **f1-score of ~0.886**.  
 This classifiers not only outperformed the others (including, even if slightly, the Random Forest one) but also provided robust results, with a metric that didn't change much when evaluated with a k-fold cross-validator.  
-Furthermore, I ran a grid optimization process on the classifier, that  didn't produce changes with respect to the default parameters. It should be noted, however, that the grid was defined as a compromise between size of the exploration space and computational burden, so it was not intended to be particuarly exhaustive.
+Furthermore, I ran a grid optimization process on the classifier, that  didn't produce changes with respect to the default parameters. It should be noted, however, that the grid was defined as a compromise between size of the exploration space and computational burden, so it was not intended to be exhaustive.
 
 There are a few things that I found particularly interesting in going through the experience:
 
