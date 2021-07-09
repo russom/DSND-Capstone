@@ -390,7 +390,7 @@ In terms of phases:
   pipeline_svc = Pipeline(stages = [assembler, scaler, lsvc])
 ```
 
-* Finally, I opted for a validator using the f1-score metric, given the [imbalance in the data](https://stats.stackexchange.com/questions/210700/how-to-choose-between-roc-auc-and-f1-score) (there are quite more users that stay that users that leave):
+* Finally, I opted for a validator using the **f1-score** metric, given the [imbalance in the data](https://stats.stackexchange.com/questions/210700/how-to-choose-between-roc-auc-and-f1-score) (there are quite more users that stay that users that leave):
 
 ```
   # Evaluator - will be common for all the grids
@@ -398,7 +398,7 @@ In terms of phases:
 ```
 
 After that, I proceeded in fitting and evaluating the four classifiers.  
-In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), folding the dataset with `k = 3`, so to verify robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
+In all cases I used a [CrossValidator](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.tuning.CrossValidator.html), **folding the dataset with `k = 3`**, so to verify robustness of the trained classifier with respect to the training data. As an example, for the Logistic Regression model I had:
 
 ```
 # Empty parameter grid
